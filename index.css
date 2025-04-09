@@ -81,6 +81,7 @@ h3
 
 #job-responsibilities
 {
+    height: 5px;
     padding: 1px;
 }
 .job-title
@@ -104,7 +105,7 @@ td
 
 #company-name
 {
-    height:2px;
+    height:5px;
     text-decoration:underline;
 }
 
@@ -120,4 +121,10 @@ td
 #heading
 {
     font-weight:bold;
+}
+
+p
+{
+    height: min-content%; 
+    
 }
