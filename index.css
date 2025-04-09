@@ -130,36 +130,3 @@ p
 }
 
 
-.card {
-    width: 250px;
-    border-radius: 12px;
-    overflow: hidden;
-    font-family: sans-serif;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  }
-  
-  .top {
-    background-color: #2196F3;
-    color: white;
-    text-align: center;
-    padding: 10px;
-  }
-  
-  .photo-placeholder {
-    background-color: #f0f0f0;
-    height: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #555;
-    font-weight: bold;
-    font-size: 18px;
-  }
-  
-  .name {
-    background-color: #333;
-    color: white;
-    text-align: center;
-    padding: 10px;
-  }
-  
