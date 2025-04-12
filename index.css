@@ -20,6 +20,15 @@ div
 	font-family: Verdana, sans-serif;
 	color: #ffffff;
 }
+#location {
+    float: left;
+	margin-left: 20px;
+    margin-top: 21px;
+	padding-bottom: 10px;
+	font-size: 12px;
+	font-family: Verdana, sans-serif;
+	color: #ffffff;
+}
 
 #email{
     float:right;
