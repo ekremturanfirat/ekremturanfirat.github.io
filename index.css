@@ -61,7 +61,7 @@ img
     border-radius: 5%;
     float: right;
     margin-top: -35px;
-    margin-right: 90px;
+    margin-right: 20px;
     height: relative;
   
     background-color: #E3EDD8;
@@ -130,4 +130,11 @@ p
     
 }
 
-
+.content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    z-index: 1;}
