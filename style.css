@@ -1,29 +1,24 @@
 /* ==========================================================
-   ekremturanfirat.com - shared stylesheet for every page
-   Change colors here and the whole site follows.
+   ekremturanfirat.com - shared stylesheet ("paper" edition)
+   Every page is a white sheet styled like an IEEE paper.
    ========================================================== */
 
+@import url("https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap");
+
 :root {
-    --bg: #fafaf9;
-    --surface: #ffffff;
-    --text: #1f2421;
-    --muted: #66706c;
-    --border: #e4e7e5;
-    --accent: #2f6f73;
-    --accent-soft: #e8f1f0;
-    --radius: 10px;
+    --desk: #ecebe7;
+    --paper: #ffffff;
+    --text: #111111;
+    --muted: #555555;
+    --rule: #111111;
+    --hairline: #d6d6d6;
+    --accent: #1a4d8f;
     --width: 860px;
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #121615;
-        --surface: #191e1d;
-        --text: #e6e9e7;
-        --muted: #9aa5a1;
-        --border: #2b3331;
-        --accent: #7cc3be;
-        --accent-soft: #1e2c2b;
+        --desk: #26282a;
     }
 }
 
@@ -41,43 +36,79 @@ html {
 
 body {
     margin: 0;
-    background: var(--bg);
+    background: var(--desk);
     color: var(--text);
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 17px;
-    line-height: 1.65;
+    font-family: "STIX Two Text", "Times New Roman", Times, serif;
+    font-size: 18px;
+    line-height: 1.55;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-main {
-    flex: 1;
-}
-
 a {
     color: var(--accent);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
+    text-decoration: none;
 }
 
 a:hover {
-    text-decoration-thickness: 2px;
+    text-decoration: underline;
 }
 
 h1, h2, h3, h4 {
+    font-weight: 400;
     line-height: 1.25;
     margin: 0 0 0.5em;
 }
 
-h1 { font-size: 2rem; letter-spacing: -0.02em; }
-h2 { font-size: 1.35rem; margin-top: 2.2em; }
-h3 { font-size: 1.05rem; }
-h4 { font-size: 1rem; margin-top: 1.6em; }
+/* Paper title */
+h1 {
+    font-size: 2.1rem;
+    text-align: center;
+}
+
+/* Section headings: I. EDUCATION, II. EXPERIENCE ... */
+main {
+    counter-reset: section;
+}
+
+h2 {
+    font-size: 1rem;
+    font-variant: small-caps;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    text-align: center;
+    margin: 2.2em 0 1em;
+}
+
+h2::first-letter {
+    text-transform: uppercase;
+}
+
+h2::before {
+    counter-increment: section;
+    content: counter(section, upper-roman) ". ";
+    text-transform: none;
+}
+
+/* Subsections are italic, as in IEEE */
+h3, h4 {
+    font-size: 1rem;
+    font-style: italic;
+}
+
+h4 {
+    margin-top: 1.4em;
+}
 
 p, ul, ol {
-    margin: 0 0 1em;
+    margin: 0 0 0.9em;
+}
+
+main p,
+main li {
+    text-align: justify;
+    hyphens: auto;
 }
 
 img {
@@ -87,9 +118,16 @@ img {
 
 hr {
     border: 0;
-    border-top: 1px solid var(--border);
-    margin: 2.5em 0;
+    border-top: 1px solid var(--hairline);
+    width: 30%;
+    margin: 2em auto;
 }
+
+.muted {
+    color: var(--muted);
+}
+
+/* ---------- The sheet of paper ---------- */
 
 .container {
     width: 100%;
@@ -98,160 +136,151 @@ hr {
     padding: 0 20px;
 }
 
-.muted {
-    color: var(--muted);
+main.container {
+    flex: 1;
+    background: var(--paper);
+    padding: 56px 80px 64px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
-/* ---------- Header / navigation ---------- */
-
-.site-header {
-    border-bottom: 1px solid var(--border);
-    background: var(--surface);
-}
+/* ---------- Header / navigation (sits on the desk, above the sheet) ---------- */
 
 .site-header .container {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
-    gap: 8px 24px;
-    padding-top: 14px;
-    padding-bottom: 14px;
+    gap: 6px 24px;
+    padding-top: 18px;
+    padding-bottom: 18px;
 }
 
 .brand {
     color: var(--text);
-    font-weight: 700;
-    text-decoration: none;
+    font-variant: small-caps;
+    letter-spacing: 0.04em;
+    font-size: 1.05rem;
 }
 
 .site-header nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 20px;
+    gap: 4px 22px;
 }
 
 .site-header nav a {
     color: var(--muted);
-    text-decoration: none;
-    font-size: 0.95rem;
-}
-
-.site-header nav a:hover,
-.site-header nav a[aria-current="page"] {
-    color: var(--accent);
+    font-variant: small-caps;
+    letter-spacing: 0.04em;
 }
 
 .site-header nav a[aria-current="page"] {
-    font-weight: 600;
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 4px;
 }
 
-/* ---------- Page title ---------- */
+@media (prefers-color-scheme: dark) {
+    .brand,
+    .site-header nav a[aria-current="page"] { color: #f0f0f0; }
+    .site-header nav a { color: #b5b5b5; }
+}
 
+/* ---------- Title block ---------- */
+
+.hero,
 .page-title {
-    padding: 48px 0 8px;
-}
-
-.page-title p {
-    color: var(--muted);
-    max-width: 640px;
-}
-
-/* ---------- Home page ---------- */
-
-.hero {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    padding: 56px 0 16px;
+    text-align: center;
+    padding-bottom: 8px;
 }
 
 .avatar {
-    width: 150px;
-    height: 200px;
+    display: block;
+    width: 108px;
+    height: 144px;
     object-fit: cover;
-    border-radius: var(--radius);
-    flex-shrink: 0;
+    margin: 0 auto 20px;
+    border: 1px solid var(--hairline);
 }
 
-.hero h1 {
-    margin-bottom: 0.2em;
-}
-
+/* Author line under the title */
 .hero .role {
-    font-size: 1.1rem;
-    margin-bottom: 0.3em;
+    font-style: italic;
+    margin-bottom: 0.1em;
 }
+
+.hero .muted {
+    font-size: 0.95rem;
+}
+
+.hero p {
+    text-align: center;
+}
+
+/* Short intro line under a page title */
+.page-title p {
+    max-width: 640px;
+    margin: 1em auto 0;
+    color: var(--muted);
+    font-style: italic;
+    text-align: center;
+}
+
+/* ---------- Home: links as a reference list ---------- */
 
 .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 14px;
+    counter-reset: ref;
 }
 
 .card {
     display: block;
-    padding: 18px 20px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    position: relative;
+    padding: 2px 0 2px 2.4em;
     color: var(--text);
-    text-decoration: none;
-    transition: border-color 0.15s;
 }
 
-.card:hover {
-    border-color: var(--accent);
+.card::before {
+    counter-increment: ref;
+    content: "[" counter(ref) "]";
+    position: absolute;
+    left: 0;
 }
 
 .card strong {
-    display: block;
+    font-weight: 400;
     color: var(--accent);
-    margin-bottom: 4px;
+}
+
+.card strong::after {
+    content: ", ";
+    color: var(--text);
 }
 
 .card span {
-    color: var(--muted);
-    font-size: 0.92rem;
-    line-height: 1.5;
+    font-style: italic;
 }
 
-/* ---------- Buttons / link rows ---------- */
+/* ---------- Buttons become plain links ---------- */
 
 .buttons {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    justify-content: center;
+    gap: 4px 0;
     padding: 0;
     list-style: none;
 }
 
-.button {
-    display: inline-block;
-    padding: 7px 16px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: var(--surface);
-    color: var(--text);
-    font-size: 0.95rem;
-    text-decoration: none;
+.buttons li + li::before {
+    content: "·";
+    margin: 0 0.6em;
+    color: var(--muted);
 }
 
-.button:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-}
-
-/* ---------- Entries (CV, projects, repositories) ----------
-   Copy one <div class="entry"> ... </div> block to add a new item. */
+/* ---------- Entries (CV, projects, repositories) ---------- */
 
 .entry {
-    padding: 18px 0;
-    border-bottom: 1px solid var(--border);
-}
-
-.entry:last-child {
-    border-bottom: 0;
+    padding: 10px 0;
 }
 
 .entry-head {
@@ -259,7 +288,7 @@ hr {
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: baseline;
-    gap: 2px 16px;
+    gap: 0 16px;
 }
 
 .entry-head h3 {
@@ -268,14 +297,14 @@ hr {
 
 .date {
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
     white-space: nowrap;
 }
 
 .entry-meta {
     color: var(--muted);
     font-size: 0.95rem;
-    margin: 2px 0 8px;
+    margin: 0 0 4px;
 }
 
 .entry p:last-child {
@@ -283,24 +312,23 @@ hr {
 }
 
 .badge {
-    display: inline-block;
-    padding: 1px 9px;
-    border-radius: 999px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-size: 0.8rem;
-    font-weight: 600;
-    vertical-align: middle;
+    font-size: 0.85rem;
+    font-style: normal;
+    font-variant: small-caps;
+    color: var(--muted);
 }
+
+.badge::before { content: "("; }
+.badge::after { content: ")"; }
 
 .repo-card img {
     display: block;
     height: 100px;
     width: auto;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
-/* ---------- Tables ---------- */
+/* ---------- Tables (booktabs style) ---------- */
 
 .table-wrap {
     overflow-x: auto;
@@ -310,89 +338,91 @@ hr {
 table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+    border-top: 1.5px solid var(--rule);
+    border-bottom: 1.5px solid var(--rule);
 }
 
 th,
 td {
-    padding: 8px 12px;
+    padding: 4px 10px;
     text-align: left;
-    border-bottom: 1px solid var(--border);
 }
 
 th {
-    background: var(--accent-soft);
-    font-weight: 600;
+    font-weight: 400;
+    font-variant: small-caps;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--rule);
 }
 
 /* ---------- Blog list ---------- */
 
 .post-item {
-    padding: 22px 0;
-    border-bottom: 1px solid var(--border);
-}
-
-.post-item:last-child {
-    border-bottom: 0;
+    padding: 14px 0;
 }
 
 .post-item h2 {
-    margin: 0 0 6px;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
+    font-variant: normal;
+    text-transform: none;
+    letter-spacing: 0;
+    text-align: left;
+    margin: 0 0 2px;
 }
 
-.post-item h2 a {
-    color: var(--text);
-    text-decoration: none;
-}
-
-.post-item h2 a:hover {
-    color: var(--accent);
+.post-item h2::before {
+    content: none;
 }
 
 .post-item p {
     margin: 0;
-    color: var(--muted);
+    font-style: italic;
 }
 
 /* ---------- Blog post ---------- */
 
 .post {
-    max-width: 720px;
-    margin: 0 auto;
+    max-width: none;
 }
 
 .post-header {
-    padding: 48px 0 16px;
+    text-align: center;
+    padding-bottom: 12px;
 }
 
 .post-header .back {
-    font-size: 0.95rem;
-    text-decoration: none;
-}
-
-.post-header h1 {
-    margin-top: 12px;
+    display: block;
+    text-align: left;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
 }
 
 .post-meta {
+    font-style: italic;
     color: var(--muted);
-    font-size: 0.95rem;
+    text-align: center !important;
+}
+
+/* IEEE-style drop cap on the first paragraph */
+.post-header + p::first-letter {
+    float: left;
+    font-size: 3.1em;
+    line-height: 0.85;
+    padding: 4px 6px 0 0;
 }
 
 .post img {
     display: block;
-    border-radius: var(--radius);
-    margin: 1.5em auto 0.5em;
+    margin: 1.4em auto 0.4em;
 }
 
 .caption {
     color: var(--muted);
     font-size: 0.85rem;
-    text-align: center;
+    text-align: center !important;
 }
 
-/* Text next to an image. Add class="reverse" to put the image on the left. */
 .media {
     display: flex;
     align-items: flex-start;
@@ -417,51 +447,48 @@ th {
     margin-top: 3em;
 }
 
-/* ---------- Footer ---------- */
+/* ---------- Footer (on the desk, below the sheet) ---------- */
 
 .site-footer {
-    margin-top: 64px;
-    padding: 24px 0;
-    border-top: 1px solid var(--border);
+    padding: 20px 0 28px;
     color: var(--muted);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .site-footer .container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 8px 24px;
+    gap: 6px 24px;
 }
 
 .site-footer a {
     color: var(--muted);
 }
 
-.site-footer a:hover {
-    color: var(--accent);
-}
-
 .site-footer p {
     margin: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .site-footer,
+    .site-footer a { color: #a8a8a8; }
 }
 
 /* ---------- Phones ---------- */
 
 @media (max-width: 600px) {
-    body { font-size: 16px; }
-    h1 { font-size: 1.65rem; }
+    body { font-size: 17px; }
+    h1 { font-size: 1.7rem; }
 
-    .hero {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-        padding-top: 36px;
+    main.container {
+        padding: 32px 20px 40px;
+        box-shadow: none;
     }
 
-    .avatar {
-        width: 120px;
-        height: 160px;
+    main p,
+    main li {
+        text-align: left;
     }
 
     .media,
