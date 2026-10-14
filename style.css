@@ -1,0 +1,477 @@
+/* ==========================================================
+   ekremturanfirat.com - shared stylesheet for every page
+   Change colors here and the whole site follows.
+   ========================================================== */
+
+:root {
+    --bg: #fafaf9;
+    --surface: #ffffff;
+    --text: #1f2421;
+    --muted: #66706c;
+    --border: #e4e7e5;
+    --accent: #2f6f73;
+    --accent-soft: #e8f1f0;
+    --radius: 10px;
+    --width: 860px;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #121615;
+        --surface: #191e1d;
+        --text: #e6e9e7;
+        --muted: #9aa5a1;
+        --border: #2b3331;
+        --accent: #7cc3be;
+        --accent-soft: #1e2c2b;
+    }
+}
+
+/* ---------- Base ---------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+a:hover {
+    text-decoration-thickness: 2px;
+}
+
+h1, h2, h3, h4 {
+    line-height: 1.25;
+    margin: 0 0 0.5em;
+}
+
+h1 { font-size: 2rem; letter-spacing: -0.02em; }
+h2 { font-size: 1.35rem; margin-top: 2.2em; }
+h3 { font-size: 1.05rem; }
+h4 { font-size: 1rem; margin-top: 1.6em; }
+
+p, ul, ol {
+    margin: 0 0 1em;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border);
+    margin: 2.5em 0;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--width);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.muted {
+    color: var(--muted);
+}
+
+/* ---------- Header / navigation ---------- */
+
+.site-header {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.site-header .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 24px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.brand {
+    color: var(--text);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.site-header nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+}
+
+.site-header nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.site-header nav a:hover,
+.site-header nav a[aria-current="page"] {
+    color: var(--accent);
+}
+
+.site-header nav a[aria-current="page"] {
+    font-weight: 600;
+}
+
+/* ---------- Page title ---------- */
+
+.page-title {
+    padding: 48px 0 8px;
+}
+
+.page-title p {
+    color: var(--muted);
+    max-width: 640px;
+}
+
+/* ---------- Home page ---------- */
+
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 56px 0 16px;
+}
+
+.avatar {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    flex-shrink: 0;
+}
+
+.hero h1 {
+    margin-bottom: 0.2em;
+}
+
+.hero .role {
+    font-size: 1.1rem;
+    margin-bottom: 0.3em;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+}
+
+.card {
+    display: block;
+    padding: 18px 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    text-decoration: none;
+    transition: border-color 0.15s;
+}
+
+.card:hover {
+    border-color: var(--accent);
+}
+
+.card strong {
+    display: block;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+.card span {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+}
+
+/* ---------- Buttons / link rows ---------- */
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0;
+    list-style: none;
+}
+
+.button {
+    display: inline-block;
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ---------- Entries (CV, projects, repositories) ----------
+   Copy one <div class="entry"> ... </div> block to add a new item. */
+
+.entry {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.entry:last-child {
+    border-bottom: 0;
+}
+
+.entry-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 2px 16px;
+}
+
+.entry-head h3 {
+    margin: 0;
+}
+
+.date {
+    color: var(--muted);
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.entry-meta {
+    color: var(--muted);
+    font-size: 0.95rem;
+    margin: 2px 0 8px;
+}
+
+.entry p:last-child {
+    margin-bottom: 0;
+}
+
+.badge {
+    display: inline-block;
+    padding: 1px 9px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+.repo-card img {
+    display: block;
+    height: 100px;
+    width: auto;
+    margin-top: 10px;
+}
+
+/* ---------- Tables ---------- */
+
+.table-wrap {
+    overflow-x: auto;
+    margin: 0 0 1.5em;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+th,
+td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: var(--accent-soft);
+    font-weight: 600;
+}
+
+/* ---------- Blog list ---------- */
+
+.post-item {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.post-item:last-child {
+    border-bottom: 0;
+}
+
+.post-item h2 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+}
+
+.post-item h2 a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.post-item h2 a:hover {
+    color: var(--accent);
+}
+
+.post-item p {
+    margin: 0;
+    color: var(--muted);
+}
+
+/* ---------- Blog post ---------- */
+
+.post {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.post-header {
+    padding: 48px 0 16px;
+}
+
+.post-header .back {
+    font-size: 0.95rem;
+    text-decoration: none;
+}
+
+.post-header h1 {
+    margin-top: 12px;
+}
+
+.post-meta {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.post img {
+    display: block;
+    border-radius: var(--radius);
+    margin: 1.5em auto 0.5em;
+}
+
+.caption {
+    color: var(--muted);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+/* Text next to an image. Add class="reverse" to put the image on the left. */
+.media {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.media.reverse {
+    flex-direction: row-reverse;
+}
+
+.media > div {
+    flex: 1;
+}
+
+.media img {
+    width: 220px;
+    flex-shrink: 0;
+    margin: 0.3em 0 0;
+}
+
+.comments {
+    margin-top: 3em;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+    margin-top: 64px;
+    padding: 24px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.site-footer .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+}
+
+.site-footer a {
+    color: var(--muted);
+}
+
+.site-footer a:hover {
+    color: var(--accent);
+}
+
+.site-footer p {
+    margin: 0;
+}
+
+/* ---------- Phones ---------- */
+
+@media (max-width: 600px) {
+    body { font-size: 16px; }
+    h1 { font-size: 1.65rem; }
+
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding-top: 36px;
+    }
+
+    .avatar {
+        width: 120px;
+        height: 160px;
+    }
+
+    .media,
+    .media.reverse {
+        flex-direction: column;
+    }
+
+    .media img {
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+}

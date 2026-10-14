@@ -1,70 +1,100 @@
-<html>
-    <head>
-        <link type="text/css" rel="stylesheet" href="index.css"/>
-        <meta name="viewport" content="width=device-width, initial-scale=0.5">
-        <meta name="description" content="Ekrem Turan Fırat - Undergraduate Researcher">
-        <meta name="keywords" content="Power Electronics, Electronics, PCB Design, Ekrem Turan Fırat">
-        <meta name="author" content="Ekrem Turan Fırat">
-        <meta property="og:image" content="https://ekremturanfirat.com/ekremturanfiratcom.png" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ekrem Turan Fırat - Undergraduate Researcher</title>
+    <meta name="description" content="Ekrem Turan Fırat - Undergraduate Researcher">
+    <meta name="keywords" content="Power Electronics, Electronics, PCB Design, Ekrem Turan Fırat">
+    <meta name="author" content="Ekrem Turan Fırat">
+    <meta property="og:image" content="https://ekremturanfirat.com/ekremturanfirat.com.png">
+    <link rel="stylesheet" href="/style.css">
 
-        <meta charset="UTF-8">
-        <title>Ekrem Turan Fırat - Undergraduate Researcher</title>
-        <!-- Google tag (gtag.js) -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6B5DK2PH0"></script>
-            <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'G-S6B5DK2PH0');
-            </script>
-    </head>
-    <body>
-        <!--Header --> 
-        <div id="header">
-            <p id="name"><a href="https://ekremturanfirat.com">Ekrem Turan Fırat</a></p>
-            <p id="location">Ankara/Sivas, Türkiye</p>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6B5DK2PH0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-S6B5DK2PH0');
+    </script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="/">Ekrem Turan Fırat</a>
+            <nav>
+                <a href="/cv/">CV</a>
+                <a href="/projects/">Projects</a>
+                <a href="/repositories/">Repositories</a>
+                <a href="/blog/">Blog</a>
+            </nav>
         </div>
+    </header>
 
-        <div class="right"> </div>
-
-        <div class="left" style=" flex: 1; display: flex;height: 90%;justify-content: center; align-items: center;  ">   
-            <div class="content"> 
-            <h3>Undergraduate Researcher</h3>
-            <img src="avatar.jpg" alt=""  width="150" height="200">
-                <p> 
-                    <ul>
-                        <li>
-                            I am a third year student in Electrical and Electronics Engineering. I have been trying to improve myself by doing projects on power electronics and hardware design since a young age. <br/>
-                        </li>
-                        <li>
-                             I am currently an undergraduate researcher at <a href="http://power.eee.metu.edu.tr/" target="_blank">METU Power Lab</a>. I am also an active student member of <a href="https://www.ieee-pels.org/" target="_blank">IEEE PELS.</a>
-                        </li>
-                        <li>
-                            Here are some links to learn more about me:
-                                <ul>
-                                    <li>
-                                        <a href="/cv/">CV</a>
-                                    </li>
-                                    <li>
-                                        <a href="/projects/">Projects</a>
-                                    </li>
-                                     <li>
-                                        <a href="/repositories/">Repositories</a>
-                                    </li>
-                                    <li>
-                                        <a href="/blog/">Blog</a>
-                                    </li>
-                                </ul>   
-                        </li>
-                    
-                        <li>E-Mail:  <a href="mailto:me@ekremturanfirat.com" target="_blank">me@ekremturanfirat.com</a></li>
-                        <li> <a href="https://www.linkedin.com/in/ekremturanfirat/" target="_blank">LinkedIn</a> | <a href="https://github.com/ekremturanfirat" target="_blank">GitHub</a> | <a href="https://500px.com/p/ekremturanfirat" target="_blank">500px</a> </li> 
-                    </ul>
-                </p>
-           
+    <main class="container">
+        <section class="hero">
+            <img class="avatar" src="/avatar.jpg" alt="Ekrem Turan Fırat" width="150" height="200">
+            <div>
+                <h1>Ekrem Turan Fırat</h1>
+                <p class="role">Undergraduate Researcher · Power Electronics &amp; Hardware Design</p>
+                <p class="muted">Ankara / Sivas, Türkiye</p>
             </div>
+        </section>
+
+        <section>
+            <p>
+                I am a third year student in Electrical and Electronics Engineering. I have been trying to improve myself
+                by doing projects on power electronics and hardware design since a young age.
+            </p>
+            <p>
+                I am currently an undergraduate researcher at <a href="http://power.eee.metu.edu.tr/" target="_blank" rel="noopener noreferrer">METU Power Lab</a>.
+                I am also an active student member of <a href="https://www.ieee-pels.org/" target="_blank" rel="noopener noreferrer">IEEE PELS</a>.
+            </p>
+        </section>
+
+        <section>
+            <h2>Learn more about me</h2>
+            <div class="cards">
+                <a class="card" href="/cv/">
+                    <strong>CV</strong>
+                    <span>Education, experience, skills and awards.</span>
+                </a>
+                <a class="card" href="/projects/">
+                    <strong>Projects</strong>
+                    <span>Power electronics and PCB design work.</span>
+                </a>
+                <a class="card" href="/repositories/">
+                    <strong>Repositories</strong>
+                    <span>Libraries, tools, documents and notes.</span>
+                </a>
+                <a class="card" href="/blog/">
+                    <strong>Blog</strong>
+                    <span>Writing on hardware, learning and mountains.</span>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h2>Contact</h2>
+            <ul class="buttons">
+                <li><a class="button" href="mailto:me@ekremturanfirat.com">me@ekremturanfirat.com</a></li>
+                <li><a class="button" href="https://www.linkedin.com/in/ekremturanfirat/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                <li><a class="button" href="https://github.com/ekremturanfirat" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                <li><a class="button" href="https://500px.com/p/ekremturanfirat" target="_blank" rel="noopener noreferrer">500px</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© Ekrem Turan Fırat · Last updated 01.07.2025</p>
+            <p>
+                <a href="mailto:me@ekremturanfirat.com">E-Mail</a> ·
+                <a href="https://www.linkedin.com/in/ekremturanfirat/" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
+                <a href="https://github.com/ekremturanfirat" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </p>
         </div>
-        <div id="footer">Ekrem Turan Fırat @ 01.07.2025 - with <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></div>
-    </body>
+    </footer>
+</body>
 </html>
