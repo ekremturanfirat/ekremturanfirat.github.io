@@ -1,65 +1,73 @@
-<html>
-    <head>
-        <link type="text/css" rel="stylesheet" href="index.css"/>
-        <meta name="viewport" content="width=device-width, initial-scale=0.5">
-        <meta name="description" content="Ekrem Turan Fırat - Undergraduate Researcher">
-        <meta name="keywords" content="Power Electronics, Electronics, PCB Design, Ekrem Turan Fırat">
-        <meta name="author" content="Ekrem Turan Fırat">
-        <meta property="og:image" content="https://ekremturanfirat.com/ekremturanfiratcom.png" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ekrem Turan Fırat - Blog</title>
+    <meta name="description" content="Ekrem Turan Fırat - Undergraduate Researcher">
+    <meta name="keywords" content="Power Electronics, Electronics, PCB Design, Ekrem Turan Fırat">
+    <meta name="author" content="Ekrem Turan Fırat">
+    <meta property="og:image" content="https://ekremturanfirat.com/ekremturanfirat.com.png">
+    <link rel="stylesheet" href="/style.css">
 
-        <meta charset="UTF-8">
-        <title>Ekrem Turan Fırat - Undergraduate Researcher</title>
-        <!-- Google tag (gtag.js) -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6B5DK2PH0"></script>
-             <script>
-            window.dataLayer = window.dataLayer || [];
-             function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-S6B5DK2PH0');
-            </script>
-    </head>
-    <body>
-        <!--Header --> 
-        <div id="header">
-            <p id="name"><a href="https://ekremturanfirat.com">Ekrem Turan Fırat</a> /Blog</p>
-            <p id="location">Ankara/Sivas, Türkiye</p>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6B5DK2PH0"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-S6B5DK2PH0');
+    </script>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="/">Ekrem Turan Fırat</a>
+            <nav>
+                <a href="/cv/">CV</a>
+                <a href="/projects/">Projects</a>
+                <a href="/repositories/">Repositories</a>
+                <a href="/blog/" aria-current="page">Blog</a>
+            </nav>
         </div>
+    </header>
 
-        <div class="right"> </div>
+    <main class="container">
+        <section class="page-title">
+            <h1>Blog</h1>
+            <p>Notes on hardware design, power electronics, learning, and the mountains of Türkiye.</p>
+        </section>
 
-        <div class="left"> 
-            <div class="content"> 
+        <!-- Newest post first. Copy one <article> block to add a new post. -->
 
+        <article class="post-item">
+            <span class="date">16.02.2026</span>
+            <h2><a href="/blog/81Zirve/">81 Zirve</a></h2>
+            <p>Hiç Türkiye'nin zirvelerinin nasıl olduğunu merak etmiş miydiniz?</p>
+        </article>
 
-            <h3><a href="/blog/81Zirve/">81 Zirve</a> </h3>
-                <p> 
-                    16.02.2026
-                    <br>
-                    Hiç Türkiye'nin zirvelerinin nasıl olduğunu merak etmiş miydiniz?</a>.
-                </p>
+        <article class="post-item">
+            <span class="date">11.05.2025</span>
+            <h2><a href="/blog/HowShouldIStart/">How Should I Start?</a></h2>
+            <p>You don't need expensive testing equipment, multiple screens surrounding you, or a big desk. You just need to get started. So how?</p>
+        </article>
 
-            <br>
-            <hr style="border: 2px solid #836d6de4;">
+        <article class="post-item">
+            <span class="date">29.04.2025</span>
+            <h2><a href="/blog/WhoAmI/">Who am I?</a></h2>
+            <p>Who am I? What is this site and why am I writing this right now? What about you? Why are you here?</p>
+        </article>
+    </main>
 
-            <h3><a href="/blog/HowShouldIStart/">How Should I Start?</a> </h3>
-                <p> 
-                    11.05.2025 
-                    <br>
-                    You don't need expensive testing equipment, multiple screens surrounding you, or a big desk. You just need to get started. So  <a href="/blog/HowShouldIStart/">how?</a>.
-                </p>
-
-            <br>
-            <hr style="border: 2px solid #836d6de4;">
-
-            <h3><a href="/blog/WhoAmI/">Who am I?</a> </h3>
-                <p> 
-                    29.04.2025 
-                    <br>
-                    Who am I? What is this site and why am I writing this right now? What about you? Why are you here? If you're curious, click <a href="/blog/WhoAmI/">here</a>.
-                </p>
-
-            </div>
+    <footer class="site-footer">
+        <div class="container">
+            <p>© Ekrem Turan Fırat · Last updated 16.02.2026</p>
+            <p>
+                <a href="mailto:me@ekremturanfirat.com">E-Mail</a> ·
+                <a href="https://www.linkedin.com/in/ekremturanfirat/" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
+                <a href="https://github.com/ekremturanfirat" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </p>
         </div>
-        <div id="footer">Ekrem Turan Fırat @ 11.05.2025 - with <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a></div>
-    </body>
+    </footer>
+</body>
 </html>
