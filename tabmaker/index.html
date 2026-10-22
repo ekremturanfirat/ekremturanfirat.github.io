@@ -78,11 +78,21 @@
   .notes h3 { color: var(--text); font-size: 15px; margin: 0 0 6px; }
   .notes ul { margin: 0; padding-left: 20px; }
   /* website build: no link download, upload is the main action */
-  .static-only { display: none; }
-  body.static .static-only { display: block; }
-  body.static #linkForm, body.static .or > .or-text { display: none; }
-  body.static .or { margin-top: 0; }
-  body.static .or .btn { padding: 13px 20px; font-weight: 600; background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .static-only, .admin-only { display: none; }
+  body[data-mode=static] .static-only { display: block; }
+  body[data-mode=static] #linkForm, body[data-mode=static] .or > .or-text { display: none; }
+  body[data-mode=static] .or { margin-top: 0; }
+  body[data-mode=admin] .admin-only { display: flex; }
+  .server { gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+  .server input { padding: 7px 10px; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 8px; font: inherit; min-width: 0; }
+  .server #server { flex: 1 1 180px; }
+  .server #key { flex: 1 1 160px; }
+  .server button { padding: 7px 12px; font-weight: 500; }
+  .badge { background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 11px; padding: 2px 7px; border-radius: 6px; letter-spacing: .04em; }
+  .state::before { content: "● "; }
+  .state.ok { color: #7fd48a; }
+  .state.bad { color: var(--err); }
+  body[data-mode=static] .or .btn { padding: 13px 20px; font-weight: 600; background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
   .back { display: inline-block; margin-bottom: 18px; color: var(--muted); text-decoration: none; font-size: 14px; }
   .back:hover { color: var(--text); }
   footer { margin-top: 40px; color: var(--muted); font-size: 12px; }
@@ -101,7 +111,7 @@
 <meta name="description" content="TabMaker: upload a song and get guitar tab, made by AI right in your browser.">
 <meta name="author" content="Ekrem Turan Fırat">
 </head>
-<body class="static">
+<body data-mode="static">
 <main>
   <a class="back" href="/projects/">← Ekrem Turan Fırat · Projects</a>
   <header>
@@ -117,6 +127,13 @@
   </header>
 
   <section class="card">
+    <div class="server admin-only">
+      <span class="badge">ADMIN</span>
+      <input id="server" type="url" aria-label="TabMaker server address" placeholder="http://localhost:8000">
+      <input id="key" type="password" aria-label="Admin key" placeholder="Admin key" autocomplete="current-password">
+      <button id="recheck" type="button">Check</button>
+      <span id="serverState" class="state"></span>
+    </div>
     <form id="linkForm">
       <input id="url" type="url" placeholder="Paste a YouTube (or other video) link…" autocomplete="off" required>
       <button id="go" class="primary" type="submit">Make tab</button>
