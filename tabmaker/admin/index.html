@@ -26,6 +26,18 @@
   ol { margin: 0; padding-left: 22px; color: var(--muted); }
   ol b { color: var(--text); }
   li { margin: 4px 0; }
+  .dl { margin-bottom: 14px; padding: 18px; }
+  .dl label { display: block; font-weight: 600; margin-bottom: 10px; }
+  .dl-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .dl input { flex: 1 1 200px; min-width: 0; padding: 12px 14px; font-size: 16px; color: var(--text); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 10px; outline: none; }
+  .dl input:focus { border-color: var(--accent); }
+  .dl button { padding: 12px 20px; border-radius: 10px; border: 1px solid var(--accent); background: var(--accent); color: var(--accent-ink);
+    font: inherit; font-weight: 700; cursor: pointer; }
+  .dl button:disabled { opacity: .6; cursor: wait; }
+  .dl-msg { margin: 10px 0 0; min-height: 1.4em; font-size: 14px; color: var(--muted); }
+  .dl-msg.bad { color: #ff8a7a; }
+  .dl-msg.ok { color: #7fd48a; }
 </style>
 </head>
 <body>
@@ -53,14 +65,72 @@
   </section>
 
   <h2>First time on this computer?</h2>
+  <form id="dl" class="card dl" autocomplete="off">
+    <label for="pw">Download TabMaker — password from Ekrem</label>
+    <div class="dl-row">
+      <input id="pw" type="password" placeholder="Password" required>
+      <button id="dlBtn" type="submit">Download</button>
+    </div>
+    <p id="dlMsg" class="dl-msg" role="status"></p>
+  </form>
   <ol>
-    <li>Get the <b>TabMaker</b> folder (a zip file) from Ekrem and unzip it, for example into Documents.</li>
-    <li>Double-click <b>Start TabMaker</b> inside it. The first time, it may install Python — click <b>Yes</b> if Windows asks.</li>
-    <li>TabMaker opens in your browser. From now on, the button above works.</li>
+    <li>Download <b>TabMaker.zip</b> above, then right-click it → <b>Extract All</b> (for example into Documents).</li>
+    <li>Open the <b>TabMaker</b> folder and double-click <b>Start TabMaker</b>.
+      If Windows says “Windows protected your PC”, click <b>More info</b> → <b>Run anyway</b> (only once).
+      The first time, it may install Python — click <b>Yes</b> if Windows asks.</li>
+    <li>TabMaker opens in your browser. From now on, the <b>Open TabMaker</b> button above works.</li>
   </ol>
 
   <h2>Stopping</h2>
   <ol><li>Close the black <b>TabMaker</b> window.</li></ol>
 </main>
+<script>
+  // download.bin is TabMaker.zip encrypted with the download password (made by tools/make-download.mjs):
+  // "TMZ1" | iterations (uint32 BE) | salt (16) | iv (12) | AES-256-GCM ciphertext. Wrong password -> decrypt fails.
+  const form = document.getElementById('dl');
+  const msg = document.getElementById('dlMsg');
+  const btn = document.getElementById('dlBtn');
+  const say = (text, cls = '') => { msg.textContent = text; msg.className = `dl-msg ${cls}`; };
+
+  async function decrypt(buf, password) {
+    const bytes = new Uint8Array(buf);
+    if (new TextDecoder().decode(bytes.slice(0, 4)) !== 'TMZ1') throw new Error('format');
+    const iterations = new DataView(buf).getUint32(4);
+    const salt = bytes.slice(8, 24);
+    const iv = bytes.slice(24, 36);
+    const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(password.normalize('NFC')), 'PBKDF2', false, ['deriveKey']);
+    const key = await crypto.subtle.deriveKey(
+      { name: 'PBKDF2', salt, iterations, hash: 'SHA-256' },
+      base, { name: 'AES-GCM', length: 256 }, false, ['decrypt'],
+    );
+    return crypto.subtle.decrypt({ name: 'AES-GCM', iv }, key, bytes.slice(36));
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    say('Checking the password…');
+    try {
+      const res = await fetch('../download.bin', { cache: 'no-store' });
+      if (!res.ok) return say('The download is not available yet — ask Ekrem.', 'bad');
+      let zip;
+      try {
+        zip = await decrypt(await res.arrayBuffer(), document.getElementById('pw').value);
+      } catch {
+        return say('Wrong password.', 'bad');
+      }
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([zip], { type: 'application/zip' }));
+      a.download = 'TabMaker.zip';
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+      say('Downloading TabMaker.zip — now follow the steps below.', 'ok');
+    } catch {
+      say('Could not download right now. Check your internet and try again.', 'bad');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>
 </body>
 </html>
