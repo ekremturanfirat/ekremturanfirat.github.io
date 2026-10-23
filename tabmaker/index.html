@@ -94,27 +94,10 @@
   .notes h3 { color: var(--text); font-size: 15px; margin: 0 0 6px; }
   .notes ul { margin: 0; padding-left: 20px; }
   /* website build: no link download, upload is the main action */
-  .static-only, .admin-only { display: none; }
+  .static-only { display: none; }
   body[data-mode=static] .static-only { display: block; }
   body[data-mode=static] #linkForm, body[data-mode=static] .or > .or-text { display: none; }
   body[data-mode=static] .or { margin-top: 0; }
-  body[data-mode=admin] .admin-only { display: flex; }
-  .server { gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
-  .server input { padding: 7px 10px; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 8px; font: inherit; min-width: 0; }
-  .server .conn { margin: 0 0 0 auto; border: 0; padding: 0; }
-  .server .conn summary { font-weight: 500; font-size: 12px; }
-  .conn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-  .server #server { flex: 1 1 180px; }
-  .server #key { flex: 1 1 160px; }
-  .server button { padding: 7px 12px; font-weight: 500; }
-  .start-box { margin-bottom: 16px; padding: 16px; border: 1px dashed var(--accent); border-radius: 12px; background: rgba(242,169,59,.06); }
-  .start-box p { margin: 10px 0 0; }
-  .start-btn { display: inline-block; padding: 12px 22px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-weight: 700; text-decoration: none; }
-  .start-btn:hover { filter: brightness(1.08); }
-  .badge { background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 11px; padding: 2px 7px; border-radius: 6px; letter-spacing: .04em; }
-  .state::before { content: "● "; }
-  .state.ok { color: #7fd48a; }
-  .state.bad { color: var(--err); }
   body[data-mode=static] .or .btn { padding: 13px 20px; font-weight: 600; background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
   .back { display: inline-block; margin-bottom: 18px; color: var(--muted); text-decoration: none; font-size: 14px; }
   .back:hover { color: var(--text); }
@@ -150,23 +133,6 @@
   </header>
 
   <section class="card">
-    <div class="server admin-only">
-      <span class="badge">ADMIN</span>
-      <span id="serverState" class="state">Checking…</span>
-      <details class="conn">
-        <summary>Connection settings</summary>
-        <div class="conn-row">
-          <input id="server" type="url" aria-label="TabMaker server address" placeholder="http://localhost:8000">
-          <input id="key" type="password" aria-label="Admin key" placeholder="Admin key" autocomplete="off">
-          <button id="recheck" type="button">Check</button>
-        </div>
-      </details>
-    </div>
-    <div id="startBox" class="start-box" hidden>
-      <a id="startBtn" class="start-btn" href="tabmaker://start">▶ Start TabMaker</a>
-      <p id="startMsg"></p>
-      <p class="hint">TabMaker not on this computer yet? Copy the TabMaker folder here and double-click <b>Start TabMaker</b> once. After that, this button works.</p>
-    </div>
     <form id="linkForm">
       <input id="url" type="url" placeholder="Paste a YouTube (or other video) link…" autocomplete="off" required>
       <button id="go" class="primary" type="submit">Make tab</button>
@@ -251,6 +217,6 @@
   </section>
   <footer>Notes are detected with Spotify's <a href="https://github.com/spotify/basic-pitch-ts" target="_blank" rel="noopener noreferrer">Basic Pitch</a> model (Apache 2.0).</footer>
 </main>
-<script type="module" src="app.js?v=1516a19013"></script>
+<script type="module" src="app.js?v=077ee3749f"></script>
 </body>
 </html>

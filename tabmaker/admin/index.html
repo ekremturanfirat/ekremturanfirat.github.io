@@ -7,124 +7,28 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M8 4h16l-3 24h-10z' fill='%23f2a93b'/></svg>">
 <style>
-  :root {
-    --bg: #14110f; --panel: #1e1a17; --panel-2: #27221e; --line: #3a332d;
-    --text: #efe7df; --muted: #a39586; --accent: #f2a93b; --accent-ink: #1a1206;
-    --note: #ffd28a; --hi: #f2a93b; --err: #ff8a7a;
-    --mono: "Cascadia Mono", "JetBrains Mono", Consolas, ui-monospace, monospace;
-  }
+  :root { --bg: #14110f; --panel: #1e1a17; --line: #3a332d; --text: #efe7df; --muted: #a39586; --accent: #f2a93b; --accent-ink: #1a1206; }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text);
-    font: 15px/1.5 "Segoe UI", system-ui, -apple-system, sans-serif; }
-  main { max-width: 1180px; margin: 0 auto; padding: 32px 16px 80px; }
-  header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
-  header svg { flex: none; }
-  h1 { font-size: 26px; margin: 0; letter-spacing: -0.02em; }
-  header p { margin: 0; color: var(--muted); }
-
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
-  form { display: flex; gap: 10px; flex-wrap: wrap; }
-  input[type=url] { flex: 1 1 320px; min-width: 0; padding: 13px 14px; font-size: 16px; color: var(--text);
-    background: var(--bg); border: 1px solid var(--line); border-radius: 10px; outline: none; }
-  input[type=url]:focus { border-color: var(--accent); }
-  button, .btn { padding: 12px 18px; border-radius: 10px; border: 1px solid var(--line); cursor: pointer;
-    background: var(--panel-2); color: var(--text); font: inherit; font-weight: 600; white-space: nowrap; }
-  button:hover, .btn:hover { border-color: var(--muted); }
-  button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-  button:disabled { opacity: .5; cursor: wait; }
-  .or { display: flex; align-items: center; gap: 10px; margin-top: 12px; color: var(--muted); font-size: 14px; flex-wrap: wrap; }
-  .or input { display: none; }
-  .or .btn { padding: 8px 14px; font-weight: 500; }
-
-  details { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; }
-  summary { cursor: pointer; color: var(--muted); font-weight: 600; }
-  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px 18px; margin-top: 14px; }
-  .opts label { display: flex; flex-direction: column; gap: 5px; font-size: 13px; color: var(--muted); }
-  .opts select, .opts input[type=number] { padding: 8px 10px; background: var(--bg); color: var(--text);
-    border: 1px solid var(--line); border-radius: 8px; font: inherit; }
-  .opts input[type=range] { accent-color: var(--accent); }
-  .row { display: flex; gap: 8px; align-items: center; }
-  .row input[type=number] { width: 100%; }
-  .check { flex-direction: row !important; align-items: center; color: var(--text) !important; }
-  .hint { font-size: 12px; color: var(--muted); }
-
-  #status { margin-top: 18px; }
-  #stage { margin-bottom: 8px; color: var(--muted); }
-  .track { height: 6px; background: var(--panel-2); border-radius: 3px; overflow: hidden; }
-  #bar { height: 100%; width: 0; background: var(--accent); transition: width .2s; }
-  .indeterminate #bar { width: 30% !important; animation: slide 1.1s ease-in-out infinite; }
-  @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(340%); } }
-  #error { margin-top: 16px; color: var(--err); background: #2a1715; border: 1px solid #5a2a24; padding: 12px 14px; border-radius: 10px; white-space: pre-wrap; }
-
-  #result { margin-top: 26px; }
-  .song { display: flex; justify-content: space-between; gap: 16px; align-items: flex-end; flex-wrap: wrap; margin-bottom: 14px; }
-  h2 { margin: 0; font-size: 22px; overflow-wrap: anywhere; }
-  #meta { color: var(--muted); font-size: 13px; }
-  /* stays at the top while the tab scrolls, so play/pause is always reachable */
-  .player { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px;
-    position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0; border-bottom: 1px solid var(--line); }
-  audio { flex: 1 1 320px; min-width: 0; height: 40px; }
-  .player button { padding: 9px 14px; }
-  .player label { color: var(--muted); font-size: 13px; display: flex; gap: 6px; align-items: center; }
-
-  /* live fretboard */
-  .fretboard { flex: 1 1 100%; background: #0f0d0c; border: 1px solid var(--line); border-radius: 12px; padding: 6px 8px 0; }
-  .fretboard svg { display: block; width: 100%; height: auto; max-height: 150px; }
-  .fb-string { stroke: #9b8b7a; }
-  .fb-fret { stroke: #3d352e; stroke-width: 2; }
-  .fb-nut { stroke: #d8cbbd; stroke-width: 5; }
-  .fb-mark { fill: #2a2420; }
-  .fb-label, .fb-num { fill: var(--muted); font: 600 12px var(--mono); }
-  .fb-num { text-anchor: middle; font-size: 11px; }
-  .fb-hand { fill: rgba(242,169,59,.10); stroke: rgba(242,169,59,.45); stroke-dasharray: 4 3; }
-  .fb-next { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-dasharray: 3 2; opacity: .6; }
-  .fb-cur { fill: var(--accent); stroke: #fff3; stroke-width: 1; }
-  .fb-cur-t { fill: var(--accent-ink); font: 700 11px var(--mono); text-anchor: middle; }
-
-  #tab { font-family: var(--mono); font-size: 14px; line-height: 1.35; white-space: pre; overflow-x: auto;
-    background: #0f0d0c; border: 1px solid var(--line); border-radius: 14px; padding: 18px; color: #6f645a; min-height: 120px; }
-  #tab .system { margin-bottom: 18px; }
-  #tab .bar-no { color: #8a7c6e; font-size: 11px; }
-  #tab .lbl { color: var(--muted); }
-  #tab .c { cursor: pointer; }
-  #tab .c.n { color: var(--note); font-weight: 600; }
-  #tab .c.hi { background: rgba(242,169,59,.28); color: #fff; border-radius: 2px; }
-  #tab .c:hover { background: rgba(255,255,255,.08); }
-
-  .notes { margin-top: 26px; color: var(--muted); font-size: 14px; }
-  .notes h3 { color: var(--text); font-size: 15px; margin: 0 0 6px; }
-  .notes ul { margin: 0; padding-left: 20px; }
-  /* website build: no link download, upload is the main action */
-  .static-only, .admin-only { display: none; }
-  body[data-mode=static] .static-only { display: block; }
-  body[data-mode=static] #linkForm, body[data-mode=static] .or > .or-text { display: none; }
-  body[data-mode=static] .or { margin-top: 0; }
-  body[data-mode=admin] .admin-only { display: flex; }
-  .server { gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
-  .server input { padding: 7px 10px; background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 8px; font: inherit; min-width: 0; }
-  .server .conn { margin: 0 0 0 auto; border: 0; padding: 0; }
-  .server .conn summary { font-weight: 500; font-size: 12px; }
-  .conn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-  .server #server { flex: 1 1 180px; }
-  .server #key { flex: 1 1 160px; }
-  .server button { padding: 7px 12px; font-weight: 500; }
-  .start-box { margin-bottom: 16px; padding: 16px; border: 1px dashed var(--accent); border-radius: 12px; background: rgba(242,169,59,.06); }
-  .start-box p { margin: 10px 0 0; }
-  .start-btn { display: inline-block; padding: 12px 22px; border-radius: 10px; background: var(--accent); color: var(--accent-ink); font-weight: 700; text-decoration: none; }
-  .start-btn:hover { filter: brightness(1.08); }
-  .badge { background: var(--accent); color: var(--accent-ink); font-weight: 700; font-size: 11px; padding: 2px 7px; border-radius: 6px; letter-spacing: .04em; }
-  .state::before { content: "● "; }
-  .state.ok { color: #7fd48a; }
-  .state.bad { color: var(--err); }
-  body[data-mode=static] .or .btn { padding: 13px 20px; font-weight: 600; background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.55 "Segoe UI", system-ui, -apple-system, sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 32px 16px 64px; }
+  a { color: var(--accent); }
   .back { display: inline-block; margin-bottom: 18px; color: var(--muted); text-decoration: none; font-size: 14px; }
   .back:hover { color: var(--text); }
-  footer { margin-top: 40px; color: var(--muted); font-size: 12px; }
-  footer a { color: var(--muted); }
-  @media (max-width: 600px) { main { padding-top: 20px; } #tab { font-size: 12px; padding: 12px; } }
+  header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  h1 { font-size: 26px; margin: 0; letter-spacing: -0.02em; }
+  header p { margin: 0; color: var(--muted); }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 24px; }
+  .open { display: block; text-align: center; padding: 18px 22px; border-radius: 12px; background: var(--accent); color: var(--accent-ink);
+    font-size: 19px; font-weight: 700; text-decoration: none; }
+  .open:hover { filter: brightness(1.08); }
+  .note { color: var(--muted); font-size: 14px; margin: 14px 0 0; }
+  h2 { font-size: 16px; margin: 28px 0 8px; }
+  ol { margin: 0; padding-left: 22px; color: var(--muted); }
+  ol b { color: var(--text); }
+  li { margin: 4px 0; }
 </style>
 </head>
-<body data-mode="admin">
+<body>
 <main>
   <a class="back" href="../">← TabMaker</a>
   <header>
@@ -135,112 +39,28 @@
     </svg>
     <div>
       <h1>TabMaker</h1>
-      <p>Give it a song — get guitar tab.</p>
+      <p>Paste a YouTube link — get guitar tab.</p>
     </div>
   </header>
 
   <section class="card">
-    <div class="server admin-only">
-      <span class="badge">ADMIN</span>
-      <span id="serverState" class="state">Checking…</span>
-      <details class="conn">
-        <summary>Connection settings</summary>
-        <div class="conn-row">
-          <input id="server" type="url" aria-label="TabMaker server address" placeholder="http://localhost:8000">
-          <input id="key" type="password" aria-label="Admin key" placeholder="Admin key" autocomplete="off">
-          <button id="recheck" type="button">Check</button>
-        </div>
-      </details>
-    </div>
-    <div id="startBox" class="start-box" hidden>
-      <a id="startBtn" class="start-btn" href="tabmaker://start">▶ Start TabMaker</a>
-      <p id="startMsg"></p>
-      <p class="hint">TabMaker not on this computer yet? Copy the TabMaker folder here and double-click <b>Start TabMaker</b> once. After that, this button works.</p>
-    </div>
-    <form id="linkForm">
-      <input id="url" type="url" placeholder="Paste a YouTube (or other video) link…" autocomplete="off" required>
-      <button id="go" class="primary" type="submit">Make tab</button>
-    </form>
-    <div class="or"><span class="or-text">or</span>
-      <label class="btn">Upload an audio / video file<input id="file" type="file" accept="audio/*,video/*"></label>
-      <span class="hint">Solo-guitar recordings give the best results.</span>
-    </div>
-    <p class="hint static-only" style="margin:12px 0 0">mp3, wav, m4a, ogg or mp4 · your file never leaves your computer, it is analysed right in this browser tab.</p>
-
-    <details>
-      <summary>Options</summary>
-      <div class="opts">
-        <label>Tuning <select id="tuning"></select></label>
-        <label>Capo <input id="capo" type="number" min="0" max="12" value="0"></label>
-        <label>What to tab
-          <select id="mode">
-            <option value="full">Everything (chords + melody)</option>
-            <option value="melody">Melody / lead only (top note)</option>
-            <option value="bass">Bass line only (lowest note)</option>
-          </select>
-        </label>
-        <label>Highest fret <input id="maxFret" type="number" min="5" max="24" value="15"></label>
-        <label>Sensitivity: <span id="sensVal">5</span>
-          <input id="sens" type="range" min="1" max="9" value="5">
-          <span class="hint">Higher finds more (and more wrong) notes</span>
-        </label>
-        <label>Ignore quiet notes: <span id="minAmpVal">25%</span>
-          <input id="minAmp" type="range" min="0" max="70" value="25">
-        </label>
-        <label class="check"><input id="clean" type="checkbox" checked> Remove overtones &amp; echoes</label>
-        <label>Shortest note (ms) <input id="minLen" type="number" min="20" max="500" step="10" value="80"></label>
-        <label>Rhythm grid
-          <select id="grid"><option value="4">16th notes</option><option value="2">8th notes</option><option value="3">8th-note triplets</option></select>
-        </label>
-        <label>Time signature
-          <select id="beats"><option value="4">4/4</option><option value="3">3/4</option><option value="2">2/4</option></select>
-        </label>
-        <label>Tempo (BPM)
-          <span class="row"><input id="bpm" type="number" min="30" max="300" value="100">
-          <label class="check"><input id="bpmAuto" type="checkbox" checked> auto</label></span>
-        </label>
-        <label>Only part of the song (seconds)
-          <span class="row"><input id="from" type="number" min="0" placeholder="from 0"><input id="to" type="number" min="0" placeholder="to end"></span>
-          <button id="relisten" type="button" style="padding:6px 10px;font-weight:500">Re-listen this part</button>
-        </label>
-      </div>
-    </details>
-
-    <div id="status" hidden>
-      <div id="stage"></div>
-      <div class="track"><div id="bar"></div></div>
-    </div>
-    <div id="error" hidden></div>
+    <a class="open" href="tabmaker://open">▶ Open TabMaker</a>
+    <p class="note">
+      Starts TabMaker on this computer and opens it in a new tab.
+      Your browser will ask to open <b>Start TabMaker</b> — tick “Always allow” and click <b>Open</b>.
+    </p>
+    <p class="note">Already running? Go to <a href="http://localhost:8000/">localhost:8000</a>.</p>
   </section>
 
-  <section id="result" hidden>
-    <div class="song">
-      <div><h2 id="songTitle"></h2><div id="meta"></div></div>
-    </div>
-    <div class="player">
-      <audio id="audio" controls preload="auto"></audio>
-      <button id="synth" type="button">♪ Play the tab</button>
-      <button id="copy" type="button">Copy text</button>
-      <button id="download" type="button">Download .txt</button>
-      <label><input id="follow" type="checkbox" checked> follow</label>
-      <label><input id="showFretboard" type="checkbox" checked> fretboard</label>
-      <div id="fretboard" class="fretboard"></div>
-    </div>
-    <div id="tab"></div>
-    <div class="notes">
-      <h3>Good to know</h3>
-      <ul>
-        <li>Click any spot in the tab to jump the song there. The highlighted column follows the music.</li>
-        <li>The fretboard under the player shows where your fingers go: bright dots = now, dashed circles = next, shaded box = where your hand sits.</li>
-        <li>Press <b>Space</b> to play / pause. Scroll yourself any time; “follow” waits a few seconds before it moves the page again.</li>
-        <li>“Play the tab” plays back what the tab says, so you can compare it with the real song by ear.</li>
-        <li>The AI hears notes, not hands: it picks the comfiest string/fret for each note, which may differ from the player’s.</li>
-        <li>Full-band songs: vocals, bass and keys get picked up too. Use “Melody only” or “Bass only” and the sensitivity slider to clean it up.</li>
-      </ul>
-    </div>
-  </section>
-  <footer>Notes are detected with Spotify's <a href="https://github.com/spotify/basic-pitch-ts" target="_blank" rel="noopener noreferrer">Basic Pitch</a> model (Apache 2.0).</footer>
+  <h2>First time on this computer?</h2>
+  <ol>
+    <li>Get the <b>TabMaker</b> folder (a zip file) from Ekrem and unzip it, for example into Documents.</li>
+    <li>Double-click <b>Start TabMaker</b> inside it. The first time, it may install Python — click <b>Yes</b> if Windows asks.</li>
+    <li>TabMaker opens in your browser. From now on, the button above works.</li>
+  </ol>
+
+  <h2>Stopping</h2>
+  <ol><li>Close the black <b>TabMaker</b> window.</li></ol>
 </main>
-<script type="module" src="../app.js?v=1516a19013"></script>
 </body>
 </html>
