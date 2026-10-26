@@ -68,25 +68,50 @@
 
   /* live fretboard */
   .fretboard { flex: 1 1 100%; background: #0f0d0c; border: 1px solid var(--line); border-radius: 12px; padding: 6px 8px 0; }
-  .fretboard svg { display: block; width: 100%; height: auto; max-height: 150px; }
+  .fretboard svg { display: block; width: 100%; height: auto; max-height: 220px; }
   .fb-string { stroke: #9b8b7a; }
   .fb-fret { stroke: #3d352e; stroke-width: 2; }
   .fb-nut { stroke: #d8cbbd; stroke-width: 5; }
   .fb-mark { fill: #2a2420; }
+  .fb-hole { fill: #1a1512; stroke: #3a332d; stroke-width: 2; }
   .fb-label, .fb-num { fill: var(--muted); font: 600 12px var(--mono); }
   .fb-num { text-anchor: middle; font-size: 11px; }
-  .fb-hand { fill: rgba(242,169,59,.10); stroke: rgba(242,169,59,.45); stroke-dasharray: 4 3; }
+  .fb-zone { fill: var(--muted); font: 600 11px "Segoe UI", system-ui, sans-serif; text-anchor: middle; }
   .fb-next { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-dasharray: 3 2; opacity: .6; }
-  .fb-cur { fill: var(--accent); stroke: #fff3; stroke-width: 1; }
-  .fb-cur-t { fill: var(--accent-ink); font: 700 11px var(--mono); text-anchor: middle; }
+  .fb-open { fill: none; stroke: var(--accent); stroke-width: 2.4; }
+  /* left hand: glides along the neck; fingers 1 index, 2 middle, 3 ring, 4 pinky */
+  .fb-handg { transition: transform .22s ease, opacity .2s; }
+  .fb-handg.idle { opacity: .35; }
+  .fb-palm { fill: rgba(240,200,160,.10); stroke: rgba(240,200,160,.35); }
+  .fb-thumb { fill: rgba(240,200,160,.10); stroke: rgba(240,200,160,.35); stroke-dasharray: 3 2; }
+  .fb-finger { fill: rgba(240,200,160,.14); stroke: rgba(240,200,160,.30); transition: height .18s ease; }
+  .fb-finger.on { fill: rgba(240,200,160,.28); }
+  .fb-barre { fill: rgba(255,255,255,.22); transition: y .18s ease, height .18s ease; }
+  .fb-tip { fill: #241f1b; stroke-width: 2; transition: cy .18s ease; }
+  .fb-tip-t { fill: #efe7df; font: 700 11px var(--mono); text-anchor: middle; transition: transform .18s ease; }
+  .fb-tip.f1 { stroke: #4ea1ff; } .fb-tip.f1.on { fill: #4ea1ff; }
+  .fb-tip.f2 { stroke: #5cd65c; } .fb-tip.f2.on { fill: #3fae3f; }
+  .fb-tip.f3 { stroke: #f2a93b; } .fb-tip.f3.on { fill: #e0922a; }
+  .fb-tip.f4 { stroke: #d07cff; } .fb-tip.f4.on { fill: #b05ce0; }
+  /* right hand: p thumb, i index, m middle, a ring */
+  .fb-pima { fill: #7fd1c1; } .fb-pima.p { fill: #f2d28a; }
+  .fb-pima-t { fill: #14110f; font: 700 12px var(--mono); text-anchor: middle; }
 
   #tab { font-family: var(--mono); font-size: 14px; line-height: 1.35; white-space: pre; overflow-x: auto;
     background: #0f0d0c; border: 1px solid var(--line); border-radius: 14px; padding: 18px; color: #6f645a; min-height: 120px; }
   #tab .system { margin-bottom: 18px; }
   #tab .bar-no { color: #8a7c6e; font-size: 11px; }
+  #tab .bar-no.good { color: #7fd17f; } #tab .bar-no.ok { color: #f2c35b; }
+  #tab .bar-no.bad { color: #14110f; background: var(--err); border-radius: 3px; font-weight: 700; }
+  #compareOut { margin-top: 6px; font-size: 14px; }
+  #compareOut a { color: var(--accent); }
   #tab .lbl { color: var(--muted); }
   #tab .c { cursor: pointer; }
   #tab .c.n { color: var(--note); font-weight: 600; }
+  #tab .system { position: relative; }
+  #tab svg.tech { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+  #tab svg.tech path { fill: none; stroke: #7fd1c1; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  #tab svg.tech text { fill: #7fd1c1; font: 600 10px "Segoe UI", system-ui, sans-serif; text-anchor: middle; }
   #tab .c.hi { background: rgba(242,169,59,.28); color: #fff; border-radius: 2px; }
   #tab .c:hover { background: rgba(255,255,255,.08); }
 
@@ -164,12 +189,15 @@
           <input id="minAmp" type="range" min="0" max="70" value="25">
         </label>
         <label class="check"><input id="clean" type="checkbox" checked> Remove overtones &amp; echoes</label>
+        <label>Techniques (h p / \ b ~)
+          <select id="tech"><option value="clear">Show the clear ones</option><option value="more">Show more (some may be wrong)</option><option value="off">Off</option></select>
+        </label>
         <label>Shortest note (ms) <input id="minLen" type="number" min="20" max="500" step="10" value="80"></label>
         <label>Rhythm grid
           <select id="grid"><option value="4">16th notes</option><option value="2">8th notes</option><option value="3">8th-note triplets</option></select>
         </label>
         <label>Time signature
-          <select id="beats"><option value="4">4/4</option><option value="3">3/4</option><option value="2">2/4</option></select>
+          <select id="beats"><option value="auto">Auto</option><option value="4">4/4</option><option value="3">3/4</option><option value="2">2/4</option><option value="6">6/8</option></select>
         </label>
         <label>Tempo (BPM)
           <span class="row"><input id="bpm" type="number" min="30" max="300" value="100">
@@ -191,11 +219,13 @@
 
   <section id="result" hidden>
     <div class="song">
-      <div><h2 id="songTitle"></h2><div id="meta"></div></div>
+      <div><h2 id="songTitle"></h2><div id="meta"></div><div id="compareOut" hidden></div></div>
     </div>
     <div class="player">
       <audio id="audio" controls preload="auto"></audio>
       <button id="synth" type="button">♪ Play the tab</button>
+      <button id="compare" type="button" title="Plays the tab, listens to it like it listened to the song, and marks the bars that sound different">≈ Compare with the song</button>
+      <label title="The tab plays quietly together with the song: wrong notes stand out"><input id="along" type="checkbox"> tab along</label>
       <button id="copy" type="button">Copy text</button>
       <button id="download" type="button">Download .txt</button>
       <label><input id="follow" type="checkbox" checked> follow</label>
@@ -207,9 +237,11 @@
       <h3>Good to know</h3>
       <ul>
         <li>Click any spot in the tab to jump the song there. The highlighted column follows the music.</li>
-        <li>The fretboard under the player shows where your fingers go: bright dots = now, dashed circles = next, shaded box = where your hand sits.</li>
+        <li>The fretboard under the player shows both hands. Left hand: the hand slides to its position and each finger presses its string (<b>1</b> index, <b>2</b> middle, <b>3</b> ring, <b>4</b> pinky; a long bar = barre); a ring at the nut = open string; dashed circles = the next notes. Right hand, by the sound hole: <b>p</b> thumb, <b>i</b> index, <b>m</b> middle, <b>a</b> ring on the strings being plucked.</li>
         <li>Press <b>Space</b> to play / pause. Scroll yourself any time; “follow” waits a few seconds before it moves the page again.</li>
-        <li>“Play the tab” plays back what the tab says, so you can compare it with the real song by ear.</li>
+        <li>Playing techniques: an arc joins a hammer-on or pull-off, a slanted line is a slide up / down, a curved arrow is a bend (½ = half step, full = whole step) and the arrow back down its release, a wavy line is vibrato. In the .txt they are written h, p, /, \, b, r and ~. They are guessed from the sound; set “Techniques” in Options to see more or none.</li>
+        <li>“Play the tab” plays back what the tab says, so you can compare it with the real song by ear. Tick “tab along” to hear the tab quietly on top of the song: wrong notes stand out.</li>
+        <li>“Compare with the song” plays the tab, listens to it the way it listened to the song, and matches the notes. Bar numbers turn green (sounds like the song), yellow or red (different); hover one to see which notes are missing or extra.</li>
         <li>The AI hears notes, not hands: it picks the comfiest string/fret for each note, which may differ from the player’s.</li>
         <li>Full-band songs: vocals, bass and keys get picked up too. Use “Melody only” or “Bass only” and the sensitivity slider to clean it up.</li>
       </ul>
@@ -217,6 +249,6 @@
   </section>
   <footer>Notes are detected with Spotify's <a href="https://github.com/spotify/basic-pitch-ts" target="_blank" rel="noopener noreferrer">Basic Pitch</a> model (Apache 2.0).</footer>
 </main>
-<script type="module" src="app.js?v=077ee3749f"></script>
+<script type="module" src="app.js?v=0a5d9c119b"></script>
 </body>
 </html>
