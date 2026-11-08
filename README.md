@@ -9,7 +9,7 @@ style.css                 ← the only stylesheet, shared by every page
 index.html                ← home
 cv/index.html
 projects/index.html
-repositories/index.html
+repositories/index.html   ← redirects to /projects/ (old link)
 blog/index.html           ← list of posts
 blog/<PostName>/index.html
 ```
@@ -70,7 +70,6 @@ Post template (`blog/MyNewPost/index.html`):
             <nav>
                 <a href="/cv/">CV</a>
                 <a href="/projects/">Projects</a>
-                <a href="/repositories/">Repositories</a>
                 <a href="/blog/" aria-current="page">Blog</a>
             </nav>
         </div>
