@@ -8,7 +8,7 @@
     <meta name="keywords" content="Power Electronics, Electronics, PCB Design, Ekrem Turan Fırat">
     <meta name="author" content="Ekrem Turan Fırat">
     <meta property="og:image" content="https://ekremturanfirat.com/ekremturanfirat.com.png">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=2">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6B5DK2PH0"></script>
@@ -33,57 +33,66 @@
     </header>
 
     <main class="container">
-        <section class="hero">
-            <img class="avatar" src="/avatar.jpg" alt="Ekrem Turan Fırat" width="150" height="200">
+        <section class="intro">
+            <img class="portrait" src="/avatar.jpg" alt="Ekrem Turan Fırat" width="168" height="210">
             <div>
                 <h1>Ekrem Turan Fırat</h1>
-                <p class="role">Undergraduate Researcher</p>
-                <p class="muted">Ankara / Sivas, Türkiye</p>
+                <p class="role">Undergraduate Researcher · Electrical and Electronics Engineering</p>
+                <p class="lead">
+                    Hi, I'm Ekrem. I design power electronics and PCBs, mostly motor drivers,
+                    and I have been building hardware projects since a young age.
+                </p>
+                <p>
+                    I am a third year student in Electrical and Electronics Engineering and an undergraduate researcher at
+                    <a href="http://power.eee.metu.edu.tr/" target="_blank" rel="noopener noreferrer">METU Power Lab</a>.
+                    I am also an active student member of <a href="https://www.ieee-pels.org/" target="_blank" rel="noopener noreferrer">IEEE PELS</a>.
+                </p>
+                <ul class="contact-row">
+                    <li><a href="mailto:me@ekremturanfirat.com">me@ekremturanfirat.com</a></li>
+                    <li><a href="https://www.linkedin.com/in/ekremturanfirat/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                    <li><a href="https://github.com/ekremturanfirat" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                    <li><a href="https://500px.com/p/ekremturanfirat" target="_blank" rel="noopener noreferrer">500px</a></li>
+                </ul>
             </div>
         </section>
 
-        <section>
-            <p>
-                I am a third year student in Electrical and Electronics Engineering. I have been trying to improve myself
-                by doing projects on power electronics and hardware design since a young age.
-            </p>
-            <p>
-                I am currently an undergraduate researcher at <a href="http://power.eee.metu.edu.tr/" target="_blank" rel="noopener noreferrer">METU Power Lab</a>.
-                I am also an active student member of <a href="https://www.ieee-pels.org/" target="_blank" rel="noopener noreferrer">IEEE PELS</a>.
-            </p>
-        </section>
+        <h2>Now</h2>
+        <ul class="now">
+            <li><span class="label">Research</span><span>Motor drivers and a PCB motor at <a href="http://power.eee.metu.edu.tr/" target="_blank" rel="noopener noreferrer">METU Power Lab</a></span></li>
+            <li><span class="label">Interests</span><span>Power electronics, GaN converters, motor control, PCB design</span></li>
+            <li><span class="label">Based in</span><span>Ankara / Sivas, Türkiye</span></li>
+        </ul>
 
-        <section>
-            <h2>Learn more about me</h2>
-            <div class="cards">
-                <a class="card" href="/cv/">
-                    <strong>CV</strong>
-                    <span>Education, experience, skills and awards.</span>
-                </a>
-                <a class="card" href="/projects/">
-                    <strong>Projects</strong>
-                    <span>Power electronics and PCB design work.</span>
-                </a>
-                <a class="card" href="/repositories/">
-                    <strong>Repositories</strong>
-                    <span>Libraries, tools, documents and notes.</span>
-                </a>
-                <a class="card" href="/blog/">
-                    <strong>Blog</strong>
-                    <span>Writing on hardware and learning.</span>
-                </a>
+        <h2>Selected projects</h2>
+
+        <div class="entry">
+            <div class="entry-head">
+                <h3>PCB Motor with Internal Driver</h3>
+                <span class="date">2026 – Ongoing</span>
             </div>
-        </section>
+            <p class="entry-meta">METU Power Lab</p>
+            <p>An axial-flux motor whose stator windings are traces on a 12-layer PCB, with a three-phase GaN driver on the same board.</p>
+        </div>
 
-        <section>
-            <h2>Contact</h2>
-            <ul class="buttons">
-                <li><a class="button" href="mailto:me@ekremturanfirat.com">me@ekremturanfirat.com</a></li>
-                <li><a class="button" href="https://www.linkedin.com/in/ekremturanfirat/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                <li><a class="button" href="https://github.com/ekremturanfirat" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                <li><a class="button" href="https://500px.com/p/ekremturanfirat" target="_blank" rel="noopener noreferrer">500px</a></li>
-            </ul>
-        </section>
+        <div class="entry">
+            <div class="entry-head">
+                <h3>PowerLab KiCad Assistant</h3>
+                <span class="date">2026 – Ongoing</span>
+            </div>
+            <p class="entry-meta">METU Power Lab · <a href="https://github.com/odtu/PowerLabKiCadAssistant" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+            <p>A KiCad side panel that guides Claude through a full PCB project to the lab's design standard.</p>
+        </div>
+
+        <div class="entry">
+            <div class="entry-head">
+                <h3>GaN-Based Synchronous Buck Converter</h3>
+                <span class="date">2025 – 2026</span>
+            </div>
+            <p class="entry-meta">AGH University of Krakow · <a href="https://github.com/ekremturanfirat/GaNBasedSynchronousDCDCBuckConverter" target="_blank" rel="noopener noreferrer">GitHub</a></p>
+            <p>A high-frequency converter built as a lab setup for students to explore how circuit parameters affect each other.</p>
+        </div>
+
+        <p class="more"><a href="/projects/">All projects →</a></p>
     </main>
 
     <footer class="site-footer">
