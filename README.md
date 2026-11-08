@@ -7,6 +7,7 @@ Plain HTML + CSS. No frameworks, no build step. Push to `main` and GitHub Pages 
 ```
 style.css                 ← the only stylesheet, shared by every page
 index.html                ← home
+avatar-illustration.jpg   ← drawing on the home page (the CV uses cv/avatar.jpg)
 cv/index.html
 projects/index.html
 repositories/index.html   ← redirects to /projects/ (old link)
@@ -52,7 +53,7 @@ Post template (`blog/MyNewPost/index.html`):
     <meta name="description" content="Ekrem Turan Fırat - Undergraduate Researcher">
     <meta name="author" content="Ekrem Turan Fırat">
     <meta property="og:image" content="https://ekremturanfirat.com/ekremturanfirat.com.png">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?v=3">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-S6B5DK2PH0"></script>
@@ -97,7 +98,7 @@ Post template (`blog/MyNewPost/index.html`):
                     data-reactions-enabled="1"
                     data-emit-metadata="0"
                     data-input-position="top"
-                    data-theme="preferred_color_scheme"
+                    data-theme="light"
                     data-lang="tr"
                     crossorigin="anonymous"
                     async>
@@ -139,7 +140,7 @@ Useful things inside a post:
 </div>
 ```
 
-## Add a CV / project / repository item
+## Add a CV / project item
 
 Copy one `<div class="entry">` block and edit it:
 
@@ -154,16 +155,26 @@ Copy one `<div class="entry">` block and edit it:
 </div>
 ```
 
-Add `<span class="badge">Ongoing</span>` after a title for a small label.
+Add `<span class="badge">Private</span>` after a title for a small label.
+
+Projects has four sections: Ongoing Projects, Completed Projects, Tools & Libraries
+and Hobby Projects. For a private repository, write `Private repository` instead of a
+GitHub link.
 
 ## Change colors and fonts
 
-The site is styled like an IEEE paper: a white sheet on a grey "desk".
-All colors are at the top of `style.css` in `:root`. `--accent` is the link color,
-`--desk` the background around the page. The font (STIX Two Text, a Times-like
-serif) is loaded by the `@import` line at the top of `style.css`.
+The design is warm and formal, and always light (there is no dark mode):
+a warm off-white page, a serif for names and titles, a clean sans for reading.
 
-Section headings (`<h2>`) are numbered I., II., III. automatically.
+All colors are at the top of `style.css` in `:root`: `--bg` is the page,
+`--ink` the headings, `--accent` the copper link color, `--muted` dates and
+small text. The fonts (Source Serif 4 for titles, Inter for text) are loaded by
+the `@import` line at the top of `style.css`.
+
+Section headings (`<h2>`) are small uppercase labels with a thin line under them.
+
+After changing `style.css`, raise the number in `style.css?v=3` on every page
+(to `?v=4` and so on), so visitors' browsers fetch the new version.
 
 ## Preview locally
 
