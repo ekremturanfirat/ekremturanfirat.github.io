@@ -157,7 +157,7 @@ Copy one `<div class="entry">` block and edit it:
 
 Add `<span class="badge">Private</span>` after a title for a small label.
 
-Projects has four sections: Ongoing Projects, Completed Projects, Tools & Libraries
+Projects has four sections: Ongoing Projects, Past Projects, Tools & Libraries
 and Hobby Projects. For a private repository, write `Private repository` instead of a
 GitHub link.
 
