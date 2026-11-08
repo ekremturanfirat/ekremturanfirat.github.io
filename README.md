@@ -52,7 +52,7 @@ Post template (`blog/MyNewPost/index.html`):
     <title>Ekrem Turan Fırat - My New Post</title>
     <meta name="description" content="Ekrem Turan Fırat - Undergraduate Researcher">
     <meta name="author" content="Ekrem Turan Fırat">
-    <meta property="og:image" content="https://ekremturanfirat.com/ekremturanfirat.com.png">
+    <meta property="og:image" content="https://ekremturanfirat.com/share-card.jpg">
     <link rel="stylesheet" href="/style.css?v=3">
 
     <!-- Google tag (gtag.js) -->
