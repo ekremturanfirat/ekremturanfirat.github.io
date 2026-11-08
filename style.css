@@ -17,18 +17,7 @@
     --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
     --sans: "Inter", "Segoe UI", system-ui, sans-serif;
     --width: 760px;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg: #16181b;
-        --surface: #1f2226;
-        --text: #e4e1dc;
-        --muted: #9a9ea4;
-        --ink: #eae6df;
-        --accent: #e0905f;
-        --hairline: #2d3136;
-    }
+    color-scheme: light;      /* always the light design */
 }
 
 /* ---------- Base ---------- */
