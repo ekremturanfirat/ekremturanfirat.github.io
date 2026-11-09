@@ -370,6 +370,121 @@ main.container {
     vertical-align: middle;
 }
 
+/* "Photos" chip in an entry's meta line; opens the viewer (gallery.js) */
+.photos-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 8px;
+    border: 1px solid var(--hairline);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.7;
+    vertical-align: 1px;
+}
+
+.photos-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.photos-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    text-decoration: none;
+}
+
+/* Photo viewer */
+.lightbox {
+    width: min(1100px, calc(100vw - 32px));
+    max-width: none;
+    max-height: calc(100vh - 32px);
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: #15171a;
+    color: #e9e6e0;
+    overflow: visible;
+}
+
+.lightbox::backdrop {
+    background: rgba(20, 22, 26, 0.82);
+}
+
+.lightbox figure {
+    margin: 0;
+}
+
+.lightbox img {
+    display: block;
+    width: 100%;
+    max-height: calc(100vh - 130px);   /* leaves room for the caption */
+    object-fit: contain;
+    border-radius: 8px 8px 0 0;
+}
+
+.lightbox figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 16px;
+    font-size: 0.88rem;
+}
+
+.lightbox figcaption {
+    flex-wrap: wrap;
+}
+
+.lb-count {
+    color: #a7a39b;
+    font-variant-numeric: tabular-nums;
+}
+
+.lb-credit {
+    flex-basis: 100%;
+    color: #a7a39b;
+    font-size: 0.78rem;
+}
+
+/* Copyright note at the end of the Projects page */
+.notice {
+    margin-top: 2.4em;
+    padding-top: 1em;
+    border-top: 1px solid var(--hairline);
+    color: var(--muted);
+    font-size: 0.82rem;
+}
+
+.lightbox button {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(21, 23, 26, 0.75);
+    color: #fff;
+    font: 400 1.6rem/1 var(--sans);
+    cursor: pointer;
+}
+
+.lightbox button:hover {
+    background: var(--accent);
+}
+
+.lightbox button[hidden] {
+    display: none;
+}
+
+.lb-close { top: 10px; right: 10px; }
+.lb-prev { left: 10px; top: 50%; transform: translateY(-50%); }
+.lb-next { right: 10px; top: 50%; transform: translateY(-50%); }
+
 .repo-card img {
     display: block;
     height: 100px;
