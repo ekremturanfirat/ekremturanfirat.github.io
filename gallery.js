@@ -1,5 +1,6 @@
 /* Photo viewer for project entries.
-   Markup: <a class="photos-btn" href="first.webp" data-photos="a.webp, b.webp" data-title="Board name">…</a>
+   Markup: <a class="photos-btn" href="first.webp" data-photos="a.webp, b.webp" data-title="Board name"
+           data-captions="first photo | second photo" data-credit="© Owner">…</a>
    Without JavaScript the link simply opens the first image. */
 (function () {
     var buttons = document.querySelectorAll(".photos-btn");
@@ -25,11 +26,16 @@
     var prev = dialog.querySelector(".lb-prev");
     var next = dialog.querySelector(".lb-next");
     var photos = [];
+    var captions = [];
+    var baseTitle = "";
     var index = 0;
 
     function show(i) {
         index = (i + photos.length) % photos.length;
         img.src = photos[index];
+        var caption = captions[index] || "";
+        title.textContent = caption ? baseTitle + " · " + caption : baseTitle;
+        img.alt = caption || baseTitle || "Project photo";
         count.textContent = photos.length > 1 ? (index + 1) + " / " + photos.length : "";
     }
 
@@ -38,9 +44,10 @@
             event.preventDefault();
             photos = (button.dataset.photos || button.getAttribute("href"))
                 .split(",").map(function (s) { return s.trim(); }).filter(Boolean);
-            title.textContent = button.dataset.title || "";
+            // Optional per-photo captions, separated by "|"
+            captions = (button.dataset.captions || "").split("|").map(function (s) { return s.trim(); });
+            baseTitle = button.dataset.title || "";
             credit.textContent = button.dataset.credit || "";
-            img.alt = button.dataset.title ? "Render of the " + button.dataset.title : "Project photo";
             prev.hidden = next.hidden = photos.length < 2;
             show(0);
             dialog.showModal();
@@ -62,5 +69,8 @@
         if (event.key === "ArrowRight") show(index + 1);
     });
 
-    dialog.addEventListener("close", function () { img.removeAttribute("src"); });
+    // The close event arrives a moment later; skip the clean-up if the viewer was reopened by then
+    dialog.addEventListener("close", function () {
+        if (!dialog.open) img.removeAttribute("src");
+    });
 })();
