@@ -614,6 +614,14 @@ th {
     margin-top: 3em;
 }
 
+/* ---------- Notes ---------- */
+
+/* "TR" language badge beside a course title */
+.post-item h2 .badge {
+    margin-left: 4px;
+    font-family: var(--sans);
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {
