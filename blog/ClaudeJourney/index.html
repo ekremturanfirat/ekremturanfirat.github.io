@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ekrem Turan Fırat - PCB Design Experiments with Claude in KiCad</title>
+    <meta name="description" content="Two months of PCB design with Claude in KiCad: the library, the first boards, the PowerLab KiCad Assistant and our own router.">
+    <meta name="author" content="Ekrem Turan Fırat">
+    <meta property="og:image" content="https://ekremturanfirat.com/share-card.jpg">
+    <link rel="stylesheet" href="/style.css?v=4">
+    <style>
+        .post .aside { border-left: 3px solid var(--accent); background: var(--surface); padding: 10px 14px; border-radius: 0 4px 4px 0; }
+        .post figure { margin: 1.4em 0 0; }
+        .post figure img { margin: 0 auto 0.4em; }
+        .table-wrap { overflow-x: auto; margin-top: 1.2em; }
+        .table-wrap table { min-width: 520px; }
+        td.num, th.num { font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+        .post h3 { margin-top: 1.8em; }
+        .post .rules li { margin-top: 0.4em; }
+        .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+        .post .pair img { margin: 0; width: 100%; border: 1px solid var(--hairline); }
+        @media (max-width: 640px) { .pair { grid-template-columns: 1fr; } }
+        .stats { list-style: none; padding: 0; margin: 1.2em 0 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+        @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+        .post .stats li { margin: 0; padding: 12px; border: 1px solid var(--hairline); border-radius: 6px; background: var(--surface); font-family: var(--sans); font-size: 0.85rem; color: var(--muted); line-height: 1.35; }
+        .stats + p { margin-top: 1.2em; }
+        .stats b { display: block; font-family: var(--serif); font-size: 1.6rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="/">Ekrem Turan Fırat</a>
+            <nav>
+                <a href="/cv/">CV</a>
+                <a href="/projects/">Projects</a>
+                <a href="/blog/" aria-current="page">Blog</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <article class="post">
+            <header class="post-header">
+                <a class="back" href="/blog/">← Blog</a>
+                <h1>PCB Design Experiments with Claude in KiCad</h1>
+                <p class="post-meta">14.11.2026 · Two months of PCB design with Claude</p>
+            </header>
+
+            <p>Hi,</p>
+            <p>Two months ago I got a Claude Scientist subscription, and it pushed me to try AI in the electronic design process. This was inevitable, but probably no one expected this speed and these results, especially with Opus 5.5.</p>
+            <p>Let's look at what the AI did and what came out of it.</p>
+
+            <!-- ============ 1 ============ -->
+            <h2>1. First, discovery</h2>
+            <p>I started by discovering Claude and connecting it to KiCad and GitHub. After that I tried some small prompts like "draw a line" or "delete this trace". It worked. But I needed better skills, so I tried to fix all the errors in our libraries (<a href="https://github.com/odtu/PowerLabKiCadLibraries" target="_blank" rel="noopener noreferrer">PowerLabKiCadLibraries</a>). I chose this because the library process is very important, even for learning how to draw a PCB. You read datasheets, draw footprints and symbols, and maybe even 3D models.</p>
+            <figure>
+                <img src="claude-was-here.png" alt="A claude.md diff on GitHub: the line Y2xhdWRlIHdhcyBoZXJl is replaced by claude was here" loading="lazy">
+                <p class="caption">claude.md. The removed line is "claude was here" in base64.</p>
+            </figure>
+            <p>The results were amazing. After a couple of minutes, Claude had learned our library design rules and design style. It scanned all the libraries, found every error and wrong piece of information, and fixed all of them. Now our library pool is fully made by Claude: it draws, checks and releases the parts, and checks every component for errors once a week.</p>
+            <figure>
+                <img src="libraries.webp" alt="PowerLab KiCad Libraries: symbols, footprints and 3D models made by Claude" loading="lazy">
+                <p class="caption">The library, made and checked by Claude.</p>
+            </figure>
+
+            <!-- ============ 2 ============ -->
+            <h2>2. Drawing "something"</h2>
+            <p>After discovering Claude's skills, I had solved one of the biggest problems of my design time: libraries. But this was just the beginning. I gave Claude some small prompts and tried to draw a full PCB with it.</p>
+            <figure>
+                <img src="esc-3d.webp" alt="3D render of the 3-phase BLDC ESC designed by Claude: ESP32 module, gate driver, six MOSFETs and screw terminals" loading="lazy">
+                <p class="caption">The 3-phase ESC Claude designed from one prompt (Rev B, 3D render).</p>
+            </figure>
+            <p>The idea was simple: get the best result with the minimum prompt effort. If I spent hours or days finding the best prompts to make Claude understand, that would be a waste of time. So I gave it very short prompts. If it needed any extra information, it asked me simple questions.</p>
+
+            <h3>Attempt 1: a mini motor driver</h3>
+            <p class="aside">"We want to create a coin-sized 3-phase motor driver, speed must be controlled using a single signal. The driver's IC must be all-in-one (control + gate driver + MCU)."</p>
+            <p>Claude picked the MCF8315C, a sensorless FOC BLDC driver with the control and the power stage in one IC, plus a JST GH 6-pin connector for speed, direction and brake, and a Hirose DF65 3-pin connector for the supply. There were no library parts for them, so it generated the symbols, footprints and 3D models from scratch with its own scripts. The result is a Ø28 mm, 4-layer board on one schematic sheet, with DRC at 0 errors (<a href="https://github.com/odtu/MiniMotorWithIntegratedDriver" target="_blank" rel="noopener noreferrer">MiniMotorWithIntegratedDriver</a>).</p>
+            <figure>
+                <img src="mini-driver-3d.webp" alt="3D render of the round mini motor driver, top and bottom" loading="lazy">
+                <img src="mini-driver-layers.webp" alt="The four copper layers of the mini motor driver" loading="lazy">
+                <p class="caption">The mini motor driver: top and bottom, then its four copper layers.</p>
+            </figure>
+
+            <h3>Attempt 2: an ESP32 ESC, this time with the rules</h3>
+            <p>Before the second attempt, we wrote the lab's <a href="https://github.com/odtu/Powerlab/blob/master/KiCAD/PCB_DESIGN_RULES.md" target="_blank" rel="noopener noreferrer">PCB design rules</a> down: schematic rules (sheets, net names, power symbols, net classes, layout notes) and PCB rules (PCBWay limits, placement, routing, vias, copper pours, silkscreen). Then one prompt again:</p>
+            <p class="aside">"I want to create a 3-Phase ESC with ESP32-Wroom. Input voltage range must be 12-36V and continuous phase current is 5-10A. Make PCB design according to ruleset."</p>
+            <p>From that, it built:</p>
+            <ul>
+                <li><b>Input and protection:</b> a TVS diode, an LM74700 for reverse polarity and a TPS16890 eFuse. I never asked for these.</li>
+                <li><b>Power:</b> an LMR38020 buck from the bus to 3.3 V, a DRV8323RS gate driver with current-sense amplifiers, three half bridges with 80 V MOSFETs, and a 5 mΩ shunt with an INA240A1 for the DC-bus current.</li>
+                <li><b>Control:</b> an ESP32-WROOM-32E for PWM, ADC and SPI, with CAN (SN65HVD230) and UART.</li>
+                <li><b>Schematic:</b> 11 hierarchical sheets, with one half-bridge sheet used three times. ERC: 0 errors. Netlist check: 79 nets, 0 shorts, 0 opens.</li>
+                <li><b>PCB:</b> 100 × 90 mm, 4 layers, DRC 0 errors, routed with Freerouting 2.4.1 and fab outputs ready (<a href="https://github.com/odtu/PCBDesignWClaude" target="_blank" rel="noopener noreferrer">PCBDesignWClaude</a>).</li>
+                <li><b>Library:</b> the parts that were missing or wrong in our library were fixed at the source, in three merged pull requests: the ESP32 symbol and footprint, power symbols, test pads and net ties, and a 0.1 → 0.05 mm mask margin on 0.5 mm-pitch QFNs.</li>
+            </ul>
+
+            <h3>The two attempts side by side</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th></th><th>Attempt 1: Mini motor driver</th><th>Attempt 2: ESP32 ESC</th></tr></thead>
+                    <tbody>
+                        <tr><td>Board</td><td>Ø28 mm, 4 layers</td><td>100 × 90 mm, 4 layers</td></tr>
+                        <tr><td>Footprints on the board</td><td>29</td><td>141</td></tr>
+                        <tr><td>Schematic</td><td>1 sheet</td><td>11 sheets (hierarchical)</td></tr>
+                        <tr><td>Lab design ruleset</td><td>not used</td><td>used</td></tr>
+                        <tr><td>DRC</td><td>0 errors, 28 silkscreen warnings</td><td>0 errors, 2 silkscreen warnings</td></tr>
+                        <tr><td>Design time</td><td>10 hours</td><td>10 hours</td></tr>
+                        <tr><td>Tokens processed</td><td>154 M</td><td>540 M</td></tr>
+                        <tr><td>Cost at API rates</td><td>$77</td><td>$167</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>The same 10 hours gave a board with five times more parts and far fewer warnings, once the rules were written down. The token numbers look huge, but most of them are cache reads: every step, the agent reads the whole conversation again, and that comes from the cache at $0.20 per million tokens. Cache reads were 96.7% and 98.6% of the tokens, and 39% and 64% of the cost. The output the model actually wrote was only 0.6 M and 1.5 M tokens.</p>
+
+            <p>It drew a really good design for a first attempt. It even added some protection circuits that weren't in my prompts.</p>
+            <p>But it still wasn't a perfect design, and I didn't like waiting a couple of hours without seeing what it was doing. So an idea came to my mind.</p>
+
+            <!-- ============ 3 ============ -->
+            <h2>3. KiCad Assistant</h2>
+            <p>This wasn't the first LLM assistant for KiCad, but I wanted a live AI assistant working inside KiCad, so I built one with Claude: the <a href="https://github.com/odtu/PowerLabKiCadAssistant" target="_blank" rel="noopener noreferrer">PowerLab KiCad Assistant</a>.</p>
+            <p>The aim was simple: I wanted to see everything the AI does, live in KiCad. But this wasn't only a live viewing tool. It works like a Claude skill: I added rules and skills for drawing PCBs, so you don't need to teach PCB drawing to the AI every time.</p>
+            <figure>
+                <img src="/projects/ProjectsImages/KiCadAssistant/panel.webp" alt="The PowerLab KiCad Assistant panel inside KiCad" loading="lazy">
+                <p class="caption">The assistant panel inside KiCad.</p>
+            </figure>
+
+            <h3>The rules I added</h3>
+            <p>The first thing I learned while drawing "something" was simple: if a rule isn't written, Claude guesses. So before adding features to the panel, I wrote the rules down as skills. A skill is a short file Claude loads only when the task needs it:</p>
+            <ul class="rules">
+                <li><b>Board requirements:</b> before any part is placed, it asks about size, layer count, working temperature, cost, mechanics and special environments (altitude, EMI, humidity, safety standards). The answers go into <code>design-requirements.md</code> and become design rules.</li>
+                <li><b>Lab design rules:</b> the PCBWay standard-price limits we design for (0.15 mm track and clearance, 0.3 mm drill with 0.6 mm via, 0.5 mm copper to edge), net classes, and power tracks sized for their current. A power net is never routed at the default width.</li>
+                <li><b>A 233-rule layout review handbook</b> in 17 chapters: stackup, placement, power, grounding, high speed, RF, crystals, switching power, ESD, thermal, vias, DFM, DFA, silkscreen, mechanical, testability and even aesthetics.</li>
+                <li><b>Placement:</b> first a block plan drawn on the board outline, which I approve, then placement block by block. The gate drive is placed before the MCU, because its connections decide where everything else goes.</li>
+                <li><b>Routing:</b> power copper and the gate-drive loops first, 45° tracks, pads entered at their centres, GND as a pour (never as tracks) with thermal reliefs, and stitching vias at the end.</li>
+                <li><b>Visual review:</b> it renders the board after every step and looks at it, the way I do.</li>
+                <li><b>Design review:</b> DRC, fix, check again until it is clean, then a PDF report. At the end it always reminds me that a power board still needs a human review before ordering.</li>
+            </ul>
+            <p class="aside">Writing rules for an AI turned out to be the same job as writing rules for a new student in the lab. Anything that isn't written down, it will guess.</p>
+
+            <h3>What it can do</h3>
+            <figure>
+                <img src="/projects/ProjectsImages/KiCadAssistant/block-plan.webp" alt="The block plan card drawn on the board outline" loading="lazy">
+                <p class="caption">The block plan. No part moves until I approve it.</p>
+            </figure>
+            <figure>
+                <img src="/projects/ProjectsImages/KiCadAssistant/placement.gif" alt="The assistant placing a board block by block in KiCad" loading="lazy">
+                <p class="caption">Placement, block by block, live in KiCad.</p>
+            </figure>
+            <figure>
+                <img src="/projects/ProjectsImages/KiCadAssistant/routing-by-hand.gif" alt="The assistant routing a board connection by connection in KiCad" loading="lazy">
+                <p class="caption">Routing by hand, connection by connection.</p>
+            </figure>
+            <figure>
+                <img src="route-the-board-chat.webp" alt="The panel chat after the prompt Route the board" loading="lazy">
+                <p class="caption">"Route the board" is a single prompt. It asks only what it can't read from the board: the rail currents, and whether to route by hand or with the router.</p>
+            </figure>
+            <p>At the end of every placement or routing task, it reviews the board without being asked: DRC, the rendered views, the lab rules and the 233-rule handbook. It fixes what it can, checks again, and stops when only my decisions are left. Then it writes the review as a PDF. On TestPCB2 it fixed 28 findings in 3 rounds and left me one item under "Needs you", with the exact steps to do in KiCad.</p>
+            <figure>
+                <div class="pair">
+                    <img src="design-review-summary.webp" alt="First page of the TestPCB2 design review, with the summary and the Needs you table blurred" loading="lazy">
+                    <img src="design-review-top-copper.webp" alt="Top copper view of TestPCB2 from the same design review, blurred" loading="lazy">
+                </div>
+                <p class="caption">The design review PDF for TestPCB2: the summary page and one of its rendered views. (Board details are blurred.)</p>
+            </figure>
+
+            <h3>PowerLab Router</h3>
+            <p><b>Why I made it.</b> Routing by hand with the agent works, and it follows the rules, but it is slow and expensive: every track segment is one tool call. On TestPCB2 (a round, 4-layer motor driver board with a 0.5 mm-pitch QFN and an LQFP), one routing session took about <b>6.4 hours</b> of active work: <b>730</b> <code>route_trace</code>, <b>436</b> <code>delete_trace</code> and <b>159</b> <code>add_via</code> calls. It deleted more than half of what it drew.</p>
+            <p>First I tried Freerouting 2.4.1, the well-known open-source router. It finishes boards, but it breaks our rules. Tracks clip pad corners instead of going into the centre. Every net gets the default width, even the power nets. And there is no way to tell it "no tracks under the inductor". On TestPCB (2 layers, ESP32, USB-C, 52 connections) it routed 51 of 52 in 69 seconds, but with <b>26 new DRC errors, 3 of them shorts</b>.</p>
+            <p>So I asked Claude to write our own router, one that routes by the lab rules. In this router the rules aren't instructions. They are costs in the search: every turn costs something, a via costs more on a clock net, a track under an inductor costs a lot, and copper in front of fine-pitch pins is expensive for other nets.</p>
+
+            <p><b>Agent vs router.</b> They don't do the same job. The agent is the designer, and the router is its tool.</p>
+            <ul>
+                <li><b>The agent</b> reads the schematic, sets the design rules and net classes, and writes a routing plan: every net gets a priority (3 = gate drive, switch nodes, bootstrap, PWM, clocks; 2 = power and analog; 1 = signals; 0 = test points, debug, LEDs). It shows me the plan, calls the router once, reads a short report, finishes by hand whatever is left, fixes the DRC errors and runs the design review.</li>
+                <li><b>The router</b> runs on my computer inside KiCad's Python. It uses no tokens, never moves a part and never forces a connection. Anything it can't do well, it leaves to the agent.</li>
+            </ul>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th></th><th>Agent by hand</th><th>PowerLab router</th></tr></thead>
+                    <tbody>
+                        <tr><td>Time on a dense board</td><td>hours</td><td>5–15 minutes</td></tr>
+                        <tr><td>Cost</td><td>one tool call per segment</td><td>one call, no tokens</td></tr>
+                        <tr><td>Judgement</td><td>reads datasheets, may move a part by 2 mm</td><td>follows the plan and the costs only</td></tr>
+                        <tr><td>Leaves</td><td>nothing, but slowly</td><td>~15–20% of the joins for the agent</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p><b>Router 1.</b> It was built in nine milestones, each one measured on TestPCB (52 connections):</p>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Version</th><th class="num">Routed</th><th class="num">New DRC errors</th><th class="num">Vias</th><th class="num">Time</th></tr></thead>
+                    <tbody>
+                        <tr><td>Freerouting + clean-up</td><td class="num">51</td><td class="num">26 (3 shorts)</td><td class="num">15</td><td class="num">69 s</td></tr>
+                        <tr><td>Milestone 0 (grid + search)</td><td class="num">42</td><td class="num">1</td><td class="num">18</td><td class="num">37 s</td></tr>
+                        <tr><td>Milestone 2 (rip-up and reroute)</td><td class="num">51</td><td class="num">2</td><td class="num">33</td><td class="num">121 s</td></tr>
+                        <tr><td>Milestone 8 (fewer vias, straight tracks)</td><td class="num"><b>52</b></td><td class="num"><b>0</b></td><td class="num">30</td><td class="num">889 s</td></tr>
+                        <tr><td>Release 1.0 (live in KiCad, pours, stitching)</td><td class="num"><b>52</b></td><td class="num"><b>0</b></td><td class="num">26</td><td class="num">917 s</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p>Release 1.0 even beat the hand-routed version of the same board on shape: 579 mm of track against 801 mm, 142 corners against 220, and 26 vias against 60. After that, Freerouting was removed from the panel completely.</p>
+
+            <p><b>What happened next.</b> A small test board isn't a real board. On TestPCB2, router 1 joined only <b>62 of 165</b> connections and hit its 15-minute limit. It routes one connection at a time in a fixed order, so the first tracks boxed in the pins of later ones: 98 joins ended with "no free entry lane" and 51 with "time limit". So I switched the router off in the panel and went back to the agent routing by hand, with better rules (45° tracks and a <code>check_routing</code> tool that measures detours, corners and pad entries).</p>
+
+            <p><b>Router 2.</b> It was built around four new ideas:</p>
+            <ol>
+                <li><b>Check first.</b> Every pin's way out is measured in seconds, before routing. A boxed-in pin is reported as a placement problem, with its position.</li>
+                <li><b>Negotiate.</b> All nets are routed at once, and they negotiate their overlaps over several rounds instead of first come, first served.</li>
+                <li><b>Nets as trees.</b> A track may end on its own net's earlier track (a T-junction), as I would draw it.</li>
+                <li><b>A routing plan from the schematic.</b> When nets fight for room, the important ones keep it.</li>
+            </ol>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>TestPCB2, 165 joins</th><th class="num">Router 1</th><th class="num">Router 2, first run</th><th class="num">Router 2 in the tool</th><th class="num">Agent by hand</th></tr></thead>
+                    <tbody>
+                        <tr><td>Joins made</td><td class="num">62</td><td class="num">119</td><td class="num"><b>132</b></td><td class="num">165</td></tr>
+                        <tr><td>Time</td><td class="num">1384 s (limit hit)</td><td class="num">674 s</td><td class="num">–</td><td class="num">~6.4 h</td></tr>
+                        <tr><td>New DRC errors</td><td class="num">0</td><td class="num">3</td><td class="num"><b>0</b></td><td class="num">–</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="caption">The hand-routed board later had a few parts moved and used an inner layer for some lanes, so its 165 is a reference, not a like-for-like score.</p>
+
+            <p>To be sure it wasn't tuned to my own board, I also tested it on <a href="https://github.com/sirojudinMunir/sf-motion" target="_blank" rel="noopener noreferrer">sf-motion</a>, an open-source FOC motor driver (2 layers, 132 parts). It made <b>113 of 126</b> joins with 0 new DRC errors in about 4.5 minutes, averaged over 3 runs with a different net order each time. The hand-routed original has 213 vias and connects all 126.</p>
+            <p>At one point I noticed that Claude was fixing the leftovers board by board. I told it to stop and find the router's own causes instead. That led to a series of small measurement scripts that compared the router with the hand routing, net by net. The answer was clear: every join it leaves can be routed when its net is routed alone. They get lost where every channel is already taken. Fixing that needs global routing, a coarse plan of which channels each net uses before the detailed search. That is the next version.</p>
+            <p>So for now the rule in the skill is honest: on a crowded power board, expect the router to make about <b>80–85%</b> of the joins in a few minutes, and the agent to finish the rest by hand.</p>
+            <figure>
+                <img src="powerlab-router.gif" alt="The PowerLab router routing a board live in KiCad" loading="lazy">
+                <p class="caption">The PowerLab router, live in KiCad.</p>
+            </figure>
+            <figure>
+                <img src="/projects/ProjectsImages/KiCadAssistant/hand-vs-router.webp" alt="The same board routed by hand and by the PowerLab router" loading="lazy">
+                <p class="caption">Hand routing vs the PowerLab router.</p>
+            </figure>
+
+            <!-- ============ 4 ============ -->
+            <h2>4. Conclusion</h2>
+            <p>So what did all of this cost? I counted it from the Claude Code session files on my computer, from the first session to the day I wrote this post. For the KiCad work alone (the library, the two attempts, the assistant, the router and the lab projects), it comes to:</p>
+            <ul class="stats">
+                <li><b>~125 h</b>active work with Claude, on 49 days</li>
+                <li><b>~7.0 B</b>tokens processed</li>
+                <li><b>26 M</b>output tokens</li>
+                <li><b>~11,500</b>KiCad tool calls</li>
+            </ul>
+            <p>The 7 billion tokens look scary, but more than 98% of them are cache reads: every step, the agent reads the whole conversation again, and that is cheap and fast. What the model actually wrote is the 26 million output tokens.</p>
+            <p>And it wasn't only KiCad. In the same two months I used Claude on side things too: this website and this blog, and a small hobby project. That is another ~15 hours and about 0.45 billion tokens, so the total is around 140 hours and 7.5 billion tokens.</p>
+            <p>This post stops here, but the work doesn't. Today the assistant can do much more than what you see above: it runs simulations, does thermal and EMI/EMC checks on the design, and draws the 3D mechanical parts around the board. I can't share those yet for privacy reasons, but I hope to write about them soon.</p>
+            <p>Two months ago I asked an AI to draw a line in KiCad. Now it designs, checks and documents boards by our lab's rules, and I spend my time on the decisions instead of the drawing. I think our profession is changing direction. The engineer is still the one who signs the board off, but the work in between looks very different now.</p>
+            <p>Thanks for reading.</p>
+
+            <!-- Comments (giscus, stored in this repo's GitHub Discussions) -->
+            <section class="comments">
+                <script src="https://giscus.app/client.js"
+                    data-repo="ekremturanfirat/ekremturanfirat.github.io"
+                    data-repo-id="R_kgDOOVC6Fg"
+                    data-category="General"
+                    data-category-id="DIC_kwDOOVC6Fs4CrVzi"
+                    data-mapping="pathname"
+                    data-strict="1"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="0"
+                    data-input-position="top"
+                    data-theme="light"
+                    data-lang="en"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </section>
+        </article>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© Ekrem Turan Fırat · Built with <a href="https://claude.com/claude-code" target="_blank" rel="noopener noreferrer">Claude Code</a></p>
+            <p>
+                <a href="mailto:me@ekremturanfirat.com">E-Mail</a> ·
+                <a href="https://www.linkedin.com/in/ekremturanfirat/" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
+                <a href="https://github.com/ekremturanfirat" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
